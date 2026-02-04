@@ -1,0 +1,226 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 750" font-family="Consolas, monospace" font-size="13">
+
+  <!-- ==================== TITLE ==================== -->
+  <text x="550" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#222">
+    FancyNameTag Copy Assignment: Deep Copy into an Existing Object
+  </text>
+  <text x="550" y="50" text-anchor="middle" font-size="13" fill="#666">
+    fTarget = fOriginal;
+  </text>
+
+  <!-- ==================== BEFORE (left half) ==================== -->
+  <text x="250" y="80" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">Before Assignment</text>
+
+  <!-- Stack region (before) -->
+  <rect x="30" y="95" width="210" height="380" rx="8" fill="#e8f0fe" stroke="#4285f4" stroke-width="1.5"/>
+  <text x="40" y="115" font-size="12" font-weight="bold" fill="#4285f4">STACK</text>
+
+  <!-- fOriginal box (before) -->
+  <rect x="45" y="125" width="180" height="155" rx="6" fill="#fff" stroke="#333" stroke-width="2"/>
+  <text x="135" y="148" text-anchor="middle" font-weight="bold" font-size="14" fill="#333">fOriginal</text>
+
+  <!-- id_ -->
+  <rect x="57" y="155" width="155" height="26" rx="4" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+  <text x="67" y="173" fill="#333">id_ =</text>
+  <text x="110" y="173" font-weight="bold" fill="#e65100">1</text>
+
+  <!-- company_ -->
+  <rect x="57" y="185" width="155" height="40" rx="4" fill="#e3f2fd" stroke="#1565c0" stroke-width="1"/>
+  <text x="67" y="203" fill="#333">company_ =</text>
+  <text x="62" y="219" font-weight="bold" font-size="10" fill="#1565c0">"Weber State Univ."</text>
+
+  <!-- bio_ pointer -->
+  <rect x="57" y="229" width="155" height="26" rx="4" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1"/>
+  <text x="67" y="247" fill="#333">bio_</text>
+  <circle cx="198" cy="242" r="5" fill="#2e7d32"/>
+
+  <!-- fTarget box (before — has OLD data) -->
+  <rect x="45" y="300" width="180" height="155" rx="6" fill="#fff" stroke="#333" stroke-width="2"/>
+  <text x="135" y="323" text-anchor="middle" font-weight="bold" font-size="14" fill="#333">fTarget</text>
+
+  <!-- id_ (old) -->
+  <rect x="57" y="330" width="155" height="26" rx="4" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+  <text x="67" y="348" fill="#333">id_ =</text>
+  <text x="110" y="348" font-weight="bold" fill="#e65100">2</text>
+
+  <!-- company_ (old) -->
+  <rect x="57" y="360" width="155" height="40" rx="4" fill="#e3f2fd" stroke="#1565c0" stroke-width="1"/>
+  <text x="67" y="378" fill="#333">company_ =</text>
+  <text x="62" y="394" font-weight="bold" font-size="10" fill="#1565c0">"School of Comp."</text>
+
+  <!-- bio_ pointer (old) -->
+  <rect x="57" y="404" width="155" height="26" rx="4" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1"/>
+  <text x="67" y="422" fill="#333">bio_</text>
+  <circle cx="198" cy="417" r="5" fill="#c62828"/>
+
+  <!-- Heap region (before — TWO Bio blocks) -->
+  <rect x="270" y="95" width="220" height="380" rx="8" fill="#e8f8e8" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="280" y="115" font-size="12" font-weight="bold" fill="#2e7d32">HEAP</text>
+
+  <!-- Original's Bio block (before) -->
+  <rect x="285" y="125" width="190" height="140" rx="6" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="380" y="148" text-anchor="middle" font-weight="bold" font-size="12" fill="#1b5e20">Bio (original's)</text>
+
+  <text x="295" y="168" fill="#333" font-size="11">name = "Scott"</text>
+  <text x="295" y="186" fill="#333" font-size="11">title = "Professor"</text>
+  <text x="295" y="204" fill="#333" font-size="11">dept = "Comp Sci"</text>
+  <text x="295" y="222" fill="#333" font-size="11">year = 2010</text>
+
+  <text x="380" y="255" text-anchor="middle" font-size="10" fill="#2e7d32">HEAP addr: aaa11</text>
+
+  <!-- Target's OLD Bio block (before — will be deleted) -->
+  <rect x="285" y="290" width="190" height="155" rx="6" fill="#ffcdd2" stroke="#c62828" stroke-width="1.5"/>
+  <text x="380" y="313" text-anchor="middle" font-weight="bold" font-size="12" fill="#c62828">Bio (target's OLD)</text>
+
+  <text x="295" y="333" fill="#333" font-size="11">name = "Alice"</text>
+  <text x="295" y="351" fill="#333" font-size="11">title = "TA"</text>
+  <text x="295" y="369" fill="#333" font-size="11">dept = "Math"</text>
+  <text x="295" y="387" fill="#333" font-size="11">year = 2023</text>
+
+  <text x="380" y="435" text-anchor="middle" font-size="10" fill="#c62828">HEAP addr: ccc33</text>
+
+  <!-- Arrow: fOriginal.bio_ -> original Bio -->
+  <line x1="203" y1="242" x2="283" y2="200" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- Arrow: fTarget.bio_ -> old Bio -->
+  <line x1="203" y1="417" x2="283" y2="370" stroke="#c62828" stroke-width="2" marker-end="url(#arrowRed)"/>
+
+  <!-- ==================== BIG ARROW ==================== -->
+  <text x="585" y="245" text-anchor="middle" font-size="28" fill="#555">&#x27A1;</text>
+  <text x="585" y="265" text-anchor="middle" font-size="10" fill="#888">fTarget = fOriginal</text>
+  <text x="585" y="279" text-anchor="middle" font-size="10" fill="#888">(copy assignment)</text>
+
+  <!-- Step labels in the middle -->
+  <rect x="550" y="300" width="70" height="60" rx="4" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+  <text x="585" y="316" text-anchor="middle" font-size="9" font-weight="bold" fill="#e65100">Steps:</text>
+  <text x="585" y="330" text-anchor="middle" font-size="9" fill="#666">1. delete</text>
+  <text x="585" y="342" text-anchor="middle" font-size="9" fill="#666">2. copy</text>
+  <text x="585" y="354" text-anchor="middle" font-size="9" fill="#666">3. new Bio</text>
+
+  <!-- ==================== AFTER (right half) ==================== -->
+  <text x="910" y="80" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">After Copy Assignment</text>
+
+  <!-- Stack region (after) -->
+  <rect x="680" y="95" width="210" height="380" rx="8" fill="#e8f0fe" stroke="#4285f4" stroke-width="1.5"/>
+  <text x="690" y="115" font-size="12" font-weight="bold" fill="#4285f4">STACK</text>
+
+  <!-- fOriginal box (after — unchanged) -->
+  <rect x="695" y="125" width="180" height="155" rx="6" fill="#fff" stroke="#333" stroke-width="2"/>
+  <text x="785" y="148" text-anchor="middle" font-weight="bold" font-size="14" fill="#333">fOriginal</text>
+
+  <!-- id_ -->
+  <rect x="707" y="155" width="155" height="26" rx="4" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+  <text x="717" y="173" fill="#333">id_ =</text>
+  <text x="760" y="173" font-weight="bold" fill="#e65100">1</text>
+
+  <!-- company_ -->
+  <rect x="707" y="185" width="155" height="40" rx="4" fill="#e3f2fd" stroke="#1565c0" stroke-width="1"/>
+  <text x="717" y="203" fill="#333">company_ =</text>
+  <text x="712" y="219" font-weight="bold" font-size="10" fill="#1565c0">"Weber State Univ."</text>
+
+  <!-- bio_ pointer -->
+  <rect x="707" y="229" width="155" height="26" rx="4" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1"/>
+  <text x="717" y="247" fill="#333">bio_</text>
+  <circle cx="848" cy="242" r="5" fill="#2e7d32"/>
+
+  <!-- unchanged label -->
+  <text x="785" y="275" text-anchor="middle" font-size="11" fill="#888">(unchanged)</text>
+
+  <!-- fTarget box (after — overwritten with deep copy, highlighted) -->
+  <rect x="695" y="300" width="180" height="155" rx="6" fill="#fffde7" stroke="#f57f17" stroke-width="2.5"/>
+  <text x="785" y="323" text-anchor="middle" font-weight="bold" font-size="13" fill="#f57f17">fTarget (overwritten)</text>
+
+  <!-- id_ (now 1) -->
+  <rect x="707" y="335" width="155" height="26" rx="4" fill="#fff3e0" stroke="#e65100" stroke-width="1.5"/>
+  <text x="717" y="353" fill="#333">id_ =</text>
+  <text x="760" y="353" font-weight="bold" fill="#e65100">1</text>
+  <text x="780" y="353" font-size="10" fill="#f57f17">&#x2190; was 2</text>
+
+  <!-- company_ (now "Weber State Univ.") -->
+  <rect x="707" y="365" width="155" height="40" rx="4" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.5"/>
+  <text x="717" y="383" fill="#333">company_ =</text>
+  <text x="712" y="399" font-weight="bold" font-size="10" fill="#1565c0">"Weber State Univ."</text>
+
+  <!-- bio_ pointer (now points to NEW heap block) -->
+  <rect x="707" y="409" width="155" height="26" rx="4" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="717" y="427" fill="#333">bio_</text>
+  <circle cx="848" cy="422" r="5" fill="#2e7d32"/>
+
+  <!-- Heap region (after — original Bio + NEW Bio, old Bio gone) -->
+  <rect x="920" y="95" width="230" height="380" rx="8" fill="#e8f8e8" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="930" y="115" font-size="12" font-weight="bold" fill="#2e7d32">HEAP</text>
+
+  <!-- Original's Bio block (same address, unchanged) -->
+  <rect x="935" y="125" width="200" height="140" rx="6" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="1035" y="148" text-anchor="middle" font-weight="bold" font-size="12" fill="#1b5e20">Bio (original's)</text>
+
+  <text x="945" y="168" fill="#333" font-size="11">name = "Scott"</text>
+  <text x="945" y="186" fill="#333" font-size="11">title = "Professor"</text>
+  <text x="945" y="204" fill="#333" font-size="11">dept = "Comp Sci"</text>
+  <text x="945" y="222" fill="#333" font-size="11">year = 2010</text>
+
+  <text x="1035" y="255" text-anchor="middle" font-size="10" fill="#2e7d32">HEAP addr: aaa11</text>
+
+  <!-- Old Bio block — DELETED (shown as ghost) -->
+  <rect x="935" y="275" width="200" height="30" rx="6" fill="#f5f5f5" stroke="#bbb" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="1035" y="295" text-anchor="middle" font-size="10" fill="#999">ccc33 DELETED (old Bio freed)</text>
+
+  <!-- NEW Bio block for fTarget (different address!) -->
+  <rect x="935" y="320" width="200" height="140" rx="6" fill="#fff9c4" stroke="#f57f17" stroke-width="2"/>
+  <text x="1035" y="343" text-anchor="middle" font-weight="bold" font-size="12" fill="#e65100">Bio (target's) NEW!</text>
+
+  <text x="945" y="363" fill="#333" font-size="11">name = "Scott"</text>
+  <text x="945" y="381" fill="#333" font-size="11">title = "Professor"</text>
+  <text x="945" y="399" fill="#333" font-size="11">dept = "Comp Sci"</text>
+  <text x="945" y="417" fill="#333" font-size="11">year = 2010</text>
+
+  <text x="1035" y="450" text-anchor="middle" font-size="10" fill="#e65100">HEAP addr: ddd44 (DIFFERENT!)</text>
+
+  <!-- Arrow: fOriginal.bio_ -> original Bio (after) -->
+  <line x1="853" y1="242" x2="933" y2="200" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- Arrow: fTarget.bio_ -> NEW Bio (after) -->
+  <line x1="853" y1="422" x2="933" y2="390" stroke="#f57f17" stroke-width="2" marker-end="url(#arrowOrange)"/>
+
+  <!-- ==================== CALLOUT BOXES ==================== -->
+
+  <!-- Deep copy assignment callout -->
+  <rect x="30" y="500" width="550" height="95" rx="6" fill="#fff3e0" stroke="#e65100" stroke-width="1.5"/>
+  <text x="305" y="522" text-anchor="middle" font-size="12" font-weight="bold" fill="#e65100">Copy Assignment: delete old Bio, then deep copy</text>
+  <text x="305" y="540" text-anchor="middle" font-size="11" fill="#666">1. Self-assignment check: if (this != &amp;other)</text>
+  <text x="305" y="556" text-anchor="middle" font-size="11" fill="#666">2. Delete the old Bio:    delete bio_;</text>
+  <text x="305" y="572" text-anchor="middle" font-size="11" fill="#666">3. Copy stack members:    id_ = other.id_; company_ = other.company_;</text>
+  <text x="305" y="588" text-anchor="middle" font-size="11" fill="#666">4. Deep copy new Bio:     bio_ = new Bio(*other.bio_);</text>
+
+  <!-- vs copy constructor callout -->
+  <rect x="610" y="500" width="540" height="95" rx="6" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.5"/>
+  <text x="880" y="522" text-anchor="middle" font-size="12" font-weight="bold" fill="#1565c0">Copy Assignment vs Copy Constructor</text>
+  <text x="880" y="540" text-anchor="middle" font-size="11" fill="#666">Constructor: FancyNameTag fCopied(fOriginal);</text>
+  <text x="880" y="556" text-anchor="middle" font-size="11" fill="#666">  Creates a NEW object — no old Bio to delete.</text>
+  <text x="880" y="572" text-anchor="middle" font-size="11" fill="#666">Assignment:  fTarget = fOriginal;</text>
+  <text x="880" y="588" text-anchor="middle" font-size="11" fill="#666">  Overwrites EXISTING object — must delete old Bio first!</text>
+
+  <!-- Self-assignment warning -->
+  <rect x="30" y="610" width="1120" height="55" rx="6" fill="#ffebee" stroke="#c62828" stroke-width="1.5"/>
+  <text x="590" y="632" text-anchor="middle" font-size="12" font-weight="bold" fill="#c62828">Why the self-assignment check? (if this != &amp;other)</text>
+  <text x="590" y="650" text-anchor="middle" font-size="11" fill="#666">Without it, "fTarget = fTarget" would delete fTarget's Bio, then try to copy from that deleted Bio — undefined behavior!</text>
+
+  <!-- Return *this callout -->
+  <rect x="30" y="680" width="1120" height="50" rx="6" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="590" y="700" text-anchor="middle" font-size="12" font-weight="bold" fill="#2e7d32">Returns *this for chaining: a = b = c;</text>
+  <text x="590" y="718" text-anchor="middle" font-size="11" fill="#666">The return type is FancyNameTag&amp; — a reference to the current object — so assignments can be chained left to right.</text>
+
+  <!-- ==================== ARROW MARKERS ==================== -->
+  <defs>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2e7d32"/>
+    </marker>
+    <marker id="arrowOrange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#f57f17"/>
+    </marker>
+    <marker id="arrowRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#c62828"/>
+    </marker>
+  </defs>
+
+</svg>

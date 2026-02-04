@@ -1,0 +1,535 @@
+name: Autograding Tests
+on:
+  - push
+  - repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Build Project
+      continue-on-error: true
+      run: |
+        cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+        cmake --build build --config Release
+
+    - name: Build Check (2 points)
+      id: build
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Build Check (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            echo "Build successful"
+          else
+            echo "Build failed" && exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    # ==================== Bio Struct (4 points) ====================
+
+    - name: Bio - Members Accessible (2 points)
+      id: bio-members
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Bio - Members Accessible (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=BioTest.MembersAreAccessible
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    - name: Bio - Print Outputs Info (2 points)
+      id: bio-print
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Bio - Print Outputs Info (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=BioTest.PrintOutputsInfo
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    # ==================== NameTag Constructor (4 points) ====================
+
+    - name: NameTag Constructor - Sets Id (2 points)
+      id: nametag-id
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: NameTag Constructor - Sets Id (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=NameTagTest.ConstructorSetsId
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    - name: NameTag Constructor - Sets Name (2 points)
+      id: nametag-name
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: NameTag Constructor - Sets Name (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=NameTagTest.ConstructorSetsName
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    # ==================== NameTag Default Copy Constructor (4 points) ====================
+
+    - name: NameTag Copy Constructor - Copies Id (2 points)
+      id: nametag-copy-id
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: NameTag Copy Constructor - Copies Id (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=NameTagTest.CopyConstructorCopiesId
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    - name: NameTag Copy Constructor - Copies Name (2 points)
+      id: nametag-copy-name
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: NameTag Copy Constructor - Copies Name (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=NameTagTest.CopyConstructorCopiesName
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    # ==================== NameTag Default Copy Assignment (4 points) ====================
+
+    - name: NameTag Copy Assignment - Overwrites Id (2 points)
+      id: nametag-assign-id
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: NameTag Copy Assignment - Overwrites Id (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=NameTagTest.CopyAssignmentOverwritesId
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    - name: NameTag Copy Assignment - Overwrites Name (2 points)
+      id: nametag-assign-name
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: NameTag Copy Assignment - Overwrites Name (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=NameTagTest.CopyAssignmentOverwritesName
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    # ==================== FancyNameTag Constructor (4 points) ====================
+
+    - name: FancyNameTag Constructor - Sets Id (2 points)
+      id: fancy-id
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: FancyNameTag Constructor - Sets Id (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=FancyNameTagTest.ConstructorSetsId
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    - name: FancyNameTag Constructor - Sets Company (2 points)
+      id: fancy-company
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: FancyNameTag Constructor - Sets Company (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=FancyNameTagTest.ConstructorSetsCompany
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    # ==================== FancyNameTag Destructor (2 points) ====================
+
+    - name: FancyNameTag Destructor - No Crash (2 points)
+      id: fancy-destructor
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: FancyNameTag Destructor - No Crash (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=FancyNameTagTest.DestructorDoesNotCrash
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    # ==================== FancyNameTag Copy Constructor (6 points) ====================
+
+    - name: Fancy Copy Constructor - Copies Id (2 points)
+      id: fancy-copy-id
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Fancy Copy Constructor - Copies Id (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=FancyNameTagTest.CopyConstructorCopiesId
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    - name: Fancy Copy Constructor - Copies Company (2 points)
+      id: fancy-copy-company
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Fancy Copy Constructor - Copies Company (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=FancyNameTagTest.CopyConstructorCopiesCompany
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    - name: Fancy Copy Constructor - Deep Copies Bio (2 points)
+      id: fancy-copy-bio
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Fancy Copy Constructor - Deep Copies Bio (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=FancyNameTagTest.CopyConstructorDeepCopiesBio
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    # ==================== FancyNameTag Copy Assignment (6 points) ====================
+
+    - name: Fancy Copy Assignment - Overwrites Id (2 points)
+      id: fancy-assign-id
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Fancy Copy Assignment - Overwrites Id (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=FancyNameTagTest.CopyAssignmentOverwritesId
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    - name: Fancy Copy Assignment - Overwrites Company (2 points)
+      id: fancy-assign-company
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Fancy Copy Assignment - Overwrites Company (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=FancyNameTagTest.CopyAssignmentOverwritesCompany
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    - name: Fancy Copy Assignment - Deep Copies Bio (2 points)
+      id: fancy-assign-bio
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Fancy Copy Assignment - Deep Copies Bio (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=FancyNameTagTest.CopyAssignmentDeepCopiesBio
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    # ==================== FancyNameTag Move Constructor (8 points) ====================
+
+    - name: Fancy Move Constructor - Transfers Id (2 points)
+      id: fancy-move-id
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Fancy Move Constructor - Transfers Id (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=FancyNameTagTest.MoveConstructorTransfersId
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    - name: Fancy Move Constructor - Transfers Company (2 points)
+      id: fancy-move-company
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Fancy Move Constructor - Transfers Company (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=FancyNameTagTest.MoveConstructorTransfersCompany
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    - name: Fancy Move Constructor - Transfers Bio Pointer (2 points)
+      id: fancy-move-bio
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Fancy Move Constructor - Transfers Bio Pointer (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=FancyNameTagTest.MoveConstructorTransfersBio
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    - name: Fancy Move Constructor - Source Bio Nullptr (2 points)
+      id: fancy-move-nullptr
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Fancy Move Constructor - Source Bio Nullptr (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=FancyNameTagTest.MoveConstructorSetsSourceBioToNullptr
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    # ==================== FancyNameTag Move Assignment (8 points) ====================
+
+    - name: Fancy Move Assignment - Transfers Id (2 points)
+      id: fancy-moveassign-id
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Fancy Move Assignment - Transfers Id (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=FancyNameTagTest.MoveAssignmentTransfersId
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    - name: Fancy Move Assignment - Transfers Company (2 points)
+      id: fancy-moveassign-company
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Fancy Move Assignment - Transfers Company (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=FancyNameTagTest.MoveAssignmentTransfersCompany
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    - name: Fancy Move Assignment - Transfers Bio Pointer (2 points)
+      id: fancy-moveassign-bio
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Fancy Move Assignment - Transfers Bio Pointer (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=FancyNameTagTest.MoveAssignmentTransfersBio
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    - name: Fancy Move Assignment - Deletes Old Bio (2 points)
+      id: fancy-moveassign-delete
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Fancy Move Assignment - Deletes Old Bio (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=FancyNameTagTest.MoveAssignmentDeletesOldBio
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    # ==================== Copy Independence (4 points) ====================
+
+    - name: Copy Constructor Independence (2 points)
+      id: copy-independent
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Copy Constructor Independence (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=FancyNameTagTest.CopyConstructorIsIndependent
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    - name: Copy Assignment Independence (2 points)
+      id: assign-independent
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Copy Assignment Independence (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=FancyNameTagTest.CopyAssignmentIsIndependent
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    # ==================== Setter Validation (4 points) ====================
+
+    - name: SetId Rejects Zero (2 points)
+      id: setid-rejects
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: SetId Rejects Zero (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=FancyNameTagTest.SetIdRejectsZero
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    - name: SetCompany Rejects Empty (2 points)
+      id: setcompany-rejects
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: SetCompany Rejects Empty (2 points)
+        setup-command: ''
+        command: |
+          if [ -f build/run_tests ]; then
+            cd build && ./run_tests --gtest_filter=FancyNameTagTest.SetCompanyRejectsEmpty
+          else
+            exit 1
+          fi
+        timeout: 10
+        max-score: 2
+
+    # ==================== Autograding Reporter ====================
+
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        BUILD_RESULTS: "${{steps.build.outputs.result}}"
+        BIO-MEMBERS_RESULTS: "${{steps.bio-members.outputs.result}}"
+        BIO-PRINT_RESULTS: "${{steps.bio-print.outputs.result}}"
+        NAMETAG-ID_RESULTS: "${{steps.nametag-id.outputs.result}}"
+        NAMETAG-NAME_RESULTS: "${{steps.nametag-name.outputs.result}}"
+        NAMETAG-COPY-ID_RESULTS: "${{steps.nametag-copy-id.outputs.result}}"
+        NAMETAG-COPY-NAME_RESULTS: "${{steps.nametag-copy-name.outputs.result}}"
+        NAMETAG-ASSIGN-ID_RESULTS: "${{steps.nametag-assign-id.outputs.result}}"
+        NAMETAG-ASSIGN-NAME_RESULTS: "${{steps.nametag-assign-name.outputs.result}}"
+        FANCY-ID_RESULTS: "${{steps.fancy-id.outputs.result}}"
+        FANCY-COMPANY_RESULTS: "${{steps.fancy-company.outputs.result}}"
+        FANCY-DESTRUCTOR_RESULTS: "${{steps.fancy-destructor.outputs.result}}"
+        FANCY-COPY-ID_RESULTS: "${{steps.fancy-copy-id.outputs.result}}"
+        FANCY-COPY-COMPANY_RESULTS: "${{steps.fancy-copy-company.outputs.result}}"
+        FANCY-COPY-BIO_RESULTS: "${{steps.fancy-copy-bio.outputs.result}}"
+        FANCY-ASSIGN-ID_RESULTS: "${{steps.fancy-assign-id.outputs.result}}"
+        FANCY-ASSIGN-COMPANY_RESULTS: "${{steps.fancy-assign-company.outputs.result}}"
+        FANCY-ASSIGN-BIO_RESULTS: "${{steps.fancy-assign-bio.outputs.result}}"
+        FANCY-MOVE-ID_RESULTS: "${{steps.fancy-move-id.outputs.result}}"
+        FANCY-MOVE-COMPANY_RESULTS: "${{steps.fancy-move-company.outputs.result}}"
+        FANCY-MOVE-BIO_RESULTS: "${{steps.fancy-move-bio.outputs.result}}"
+        FANCY-MOVE-NULLPTR_RESULTS: "${{steps.fancy-move-nullptr.outputs.result}}"
+        FANCY-MOVEASSIGN-ID_RESULTS: "${{steps.fancy-moveassign-id.outputs.result}}"
+        FANCY-MOVEASSIGN-COMPANY_RESULTS: "${{steps.fancy-moveassign-company.outputs.result}}"
+        FANCY-MOVEASSIGN-BIO_RESULTS: "${{steps.fancy-moveassign-bio.outputs.result}}"
+        FANCY-MOVEASSIGN-DELETE_RESULTS: "${{steps.fancy-moveassign-delete.outputs.result}}"
+        COPY-INDEPENDENT_RESULTS: "${{steps.copy-independent.outputs.result}}"
+        ASSIGN-INDEPENDENT_RESULTS: "${{steps.assign-independent.outputs.result}}"
+        SETID-REJECTS_RESULTS: "${{steps.setid-rejects.outputs.result}}"
+        SETCOMPANY-REJECTS_RESULTS: "${{steps.setcompany-rejects.outputs.result}}"
+      with:
+        runners: build,bio-members,bio-print,nametag-id,nametag-name,nametag-copy-id,nametag-copy-name,nametag-assign-id,nametag-assign-name,fancy-id,fancy-company,fancy-destructor,fancy-copy-id,fancy-copy-company,fancy-copy-bio,fancy-assign-id,fancy-assign-company,fancy-assign-bio,fancy-move-id,fancy-move-company,fancy-move-bio,fancy-move-nullptr,fancy-moveassign-id,fancy-moveassign-company,fancy-moveassign-bio,fancy-moveassign-delete,copy-independent,assign-independent,setid-rejects,setcompany-rejects

@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 720" font-family="Consolas, monospace" font-size="13">
+
+  <!-- ==================== TITLE ==================== -->
+  <text x="590" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#222">
+    FancyNameTag Move Constructor: Transfer Ownership (no heap allocation)
+  </text>
+  <text x="590" y="50" text-anchor="middle" font-size="13" fill="#666">
+    FancyNameTag fMoved(std::move(fOriginal));
+  </text>
+
+  <!-- ==================== BEFORE (left half) ==================== -->
+  <text x="250" y="80" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">Before Move</text>
+
+  <!-- Stack region (before) -->
+  <rect x="30" y="95" width="210" height="200" rx="8" fill="#e8f0fe" stroke="#4285f4" stroke-width="1.5"/>
+  <text x="40" y="115" font-size="12" font-weight="bold" fill="#4285f4">STACK</text>
+
+  <!-- fOriginal box -->
+  <rect x="45" y="125" width="180" height="155" rx="6" fill="#fff" stroke="#333" stroke-width="2"/>
+  <text x="135" y="148" text-anchor="middle" font-weight="bold" font-size="14" fill="#333">fOriginal</text>
+
+  <!-- id_ -->
+  <rect x="57" y="155" width="155" height="26" rx="4" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+  <text x="67" y="173" fill="#333">id_ =</text>
+  <text x="110" y="173" font-weight="bold" fill="#e65100">1</text>
+
+  <!-- company_ -->
+  <rect x="57" y="185" width="155" height="40" rx="4" fill="#e3f2fd" stroke="#1565c0" stroke-width="1"/>
+  <text x="67" y="203" fill="#333">company_ =</text>
+  <text x="62" y="219" font-weight="bold" font-size="10" fill="#1565c0">"Weber State Univ."</text>
+
+  <!-- bio_ pointer -->
+  <rect x="57" y="229" width="155" height="26" rx="4" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1"/>
+  <text x="67" y="247" fill="#333">bio_</text>
+  <circle cx="198" cy="242" r="5" fill="#2e7d32"/>
+
+  <!-- Heap region (before) -->
+  <rect x="270" y="95" width="210" height="200" rx="8" fill="#e8f8e8" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="280" y="115" font-size="12" font-weight="bold" fill="#2e7d32">HEAP</text>
+
+  <!-- Bio block (before) -->
+  <rect x="285" y="125" width="180" height="155" rx="6" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="375" y="148" text-anchor="middle" font-weight="bold" font-size="12" fill="#1b5e20">Bio</text>
+
+  <text x="295" y="168" fill="#333" font-size="11">name = "Scott"</text>
+  <text x="295" y="186" fill="#333" font-size="11">title = "Professor"</text>
+  <text x="295" y="204" fill="#333" font-size="11">dept = "Comp Sci"</text>
+  <text x="295" y="222" fill="#333" font-size="11">year = 2010</text>
+
+  <text x="375" y="268" text-anchor="middle" font-size="10" fill="#2e7d32">HEAP addr: aaa11</text>
+
+  <!-- Arrow: bio_ -> Bio -->
+  <line x1="203" y1="242" x2="283" y2="200" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- No fMoved yet -->
+  <rect x="45" y="310" width="180" height="40" rx="6" fill="#f5f5f5" stroke="#bbb" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <text x="135" y="335" text-anchor="middle" font-size="11" fill="#999">fMoved does not exist yet</text>
+
+  <!-- ==================== BIG ARROW ==================== -->
+  <text x="570" y="200" text-anchor="middle" font-size="28" fill="#555">&#x27A1;</text>
+  <text x="570" y="220" text-anchor="middle" font-size="10" fill="#888">FancyNameTag</text>
+  <text x="570" y="234" text-anchor="middle" font-size="10" fill="#888">fMoved(std::move(fOriginal))</text>
+
+  <!-- "No new!" badge in center -->
+  <rect x="525" y="250" width="60" height="22" rx="4" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="555" y="265" text-anchor="middle" font-size="10" font-weight="bold" fill="#2e7d32">No new!</text>
+
+  <!-- ==================== AFTER (right half) ==================== -->
+  <text x="890" y="80" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">After Move</text>
+
+  <!-- Stack region (after) -->
+  <rect x="660" y="95" width="210" height="390" rx="8" fill="#e8f0fe" stroke="#4285f4" stroke-width="1.5"/>
+  <text x="670" y="115" font-size="12" font-weight="bold" fill="#4285f4">STACK</text>
+
+  <!-- fOriginal box (after — moved-from, grayed out) -->
+  <rect x="675" y="125" width="180" height="155" rx="6" fill="#f5f5f5" stroke="#999" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="765" y="148" text-anchor="middle" font-weight="bold" font-size="13" fill="#999">fOriginal (moved-from)</text>
+
+  <!-- id_ (still has value — int is just copied) -->
+  <rect x="687" y="155" width="155" height="26" rx="4" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+  <text x="697" y="173" fill="#333">id_ =</text>
+  <text x="740" y="173" font-weight="bold" fill="#e65100">1</text>
+  <text x="760" y="173" font-size="9" fill="#888">still here</text>
+
+  <!-- company_ (moved — now empty) -->
+  <rect x="687" y="185" width="155" height="40" rx="4" fill="#ffebee" stroke="#c62828" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="697" y="203" fill="#999">company_ =</text>
+  <text x="697" y="219" font-weight="bold" font-size="10" fill="#c62828">""  (moved)</text>
+
+  <!-- bio_ pointer (now nullptr) -->
+  <rect x="687" y="229" width="155" height="26" rx="4" fill="#ffebee" stroke="#c62828" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="697" y="247" fill="#999">bio_ =</text>
+  <text x="745" y="247" font-weight="bold" fill="#c62828">nullptr</text>
+
+  <!-- fMoved box (after — NEW object, owns the Bio) -->
+  <rect x="675" y="310" width="180" height="155" rx="6" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2.5"/>
+  <text x="765" y="333" text-anchor="middle" font-weight="bold" font-size="14" fill="#2e7d32">fMoved (NEW)</text>
+
+  <!-- id_ (taken from original) -->
+  <rect x="687" y="340" width="155" height="26" rx="4" fill="#fff3e0" stroke="#e65100" stroke-width="1.5"/>
+  <text x="697" y="358" fill="#333">id_ =</text>
+  <text x="740" y="358" font-weight="bold" fill="#e65100">1</text>
+
+  <!-- company_ (stolen via std::move) -->
+  <rect x="687" y="370" width="155" height="40" rx="4" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.5"/>
+  <text x="697" y="388" fill="#333">company_ =</text>
+  <text x="692" y="404" font-weight="bold" font-size="10" fill="#1565c0">"Weber State Univ."</text>
+
+  <!-- bio_ pointer (stolen via std::exchange — SAME address!) -->
+  <rect x="687" y="414" width="155" height="26" rx="4" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="697" y="432" fill="#333">bio_</text>
+  <circle cx="828" cy="427" r="5" fill="#2e7d32"/>
+
+  <!-- Heap region (after — SAME single Bio block, no new allocation) -->
+  <rect x="900" y="95" width="250" height="390" rx="8" fill="#e8f8e8" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="910" y="115" font-size="12" font-weight="bold" fill="#2e7d32">HEAP</text>
+
+  <!-- SAME Bio block (same address — pointer was transferred, not copied) -->
+  <rect x="915" y="310" width="220" height="155" rx="6" fill="#c8e6c9" stroke="#2e7d32" stroke-width="2"/>
+  <text x="1025" y="333" text-anchor="middle" font-weight="bold" font-size="12" fill="#1b5e20">Bio (SAME object!)</text>
+
+  <text x="925" y="353" fill="#333" font-size="11">name = "Scott"</text>
+  <text x="925" y="371" fill="#333" font-size="11">title = "Professor"</text>
+  <text x="925" y="389" fill="#333" font-size="11">dept = "Comp Sci"</text>
+  <text x="925" y="407" fill="#333" font-size="11">year = 2010</text>
+
+  <text x="1025" y="455" text-anchor="middle" font-size="10" fill="#2e7d32">HEAP addr: aaa11 (SAME!)</text>
+
+  <!-- Where original's Bio used to be (empty spot) -->
+  <rect x="915" y="125" width="220" height="140" rx="6" fill="#f5f5f5" stroke="#bbb" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="1025" y="195" text-anchor="middle" font-size="11" fill="#999">No allocation here.</text>
+  <text x="1025" y="213" text-anchor="middle" font-size="11" fill="#999">Bio was not copied —</text>
+  <text x="1025" y="231" text-anchor="middle" font-size="11" fill="#999">pointer was transferred!</text>
+
+  <!-- Arrow: fMoved.bio_ -> SAME Bio -->
+  <line x1="833" y1="427" x2="913" y2="390" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- No arrow from fOriginal (bio_ is nullptr) -->
+  <!-- X mark where arrow used to be -->
+  <text x="840" y="247" font-size="14" font-weight="bold" fill="#c62828">&#x2717;</text>
+  <text x="855" y="247" font-size="9" fill="#c62828">nullptr</text>
+
+  <!-- ==================== CALLOUT BOXES ==================== -->
+
+  <!-- Move mechanics callout -->
+  <rect x="30" y="500" width="550" height="95" rx="6" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="305" y="522" text-anchor="middle" font-size="12" font-weight="bold" fill="#2e7d32">Move Constructor: steal, don't copy</text>
+  <text x="305" y="540" text-anchor="middle" font-size="11" fill="#666">1. Copy int:              id_(other.id_)                     — ints are trivial</text>
+  <text x="305" y="556" text-anchor="middle" font-size="11" fill="#666">2. Move string:           company_(std::move(other.company_)) — steals buffer</text>
+  <text x="305" y="572" text-anchor="middle" font-size="11" fill="#666">3. Exchange bio pointer:  bio_(std::exchange(other.bio_, nullptr))</text>
+  <text x="305" y="588" text-anchor="middle" font-size="11" fill="#666">   std::exchange returns old value and sets other.bio_ to nullptr</text>
+
+  <!-- vs copy constructor callout -->
+  <rect x="610" y="500" width="540" height="95" rx="6" fill="#fff3e0" stroke="#e65100" stroke-width="1.5"/>
+  <text x="880" y="522" text-anchor="middle" font-size="12" font-weight="bold" fill="#e65100">Move vs Copy Constructor</text>
+  <text x="880" y="540" text-anchor="middle" font-size="11" fill="#666">Copy:  bio_ = new Bio(*other.bio_)</text>
+  <text x="880" y="556" text-anchor="middle" font-size="11" fill="#666">  Allocates new heap memory — O(n) to copy all fields.</text>
+  <text x="880" y="572" text-anchor="middle" font-size="11" fill="#666">Move:  bio_ = std::exchange(other.bio_, nullptr)</text>
+  <text x="880" y="588" text-anchor="middle" font-size="11" fill="#666">  Just swaps a pointer — O(1), no allocation needed!</text>
+
+  <!-- Moved-from state callout -->
+  <rect x="30" y="610" width="1120" height="55" rx="6" fill="#ffebee" stroke="#c62828" stroke-width="1.5"/>
+  <text x="590" y="632" text-anchor="middle" font-size="12" font-weight="bold" fill="#c62828">The moved-from object is in a "valid but unspecified" state</text>
+  <text x="590" y="650" text-anchor="middle" font-size="11" fill="#666">fOriginal can still be destroyed safely (destructor checks for nullptr), but its data has been gutted. Don't use it!</text>
+
+  <!-- noexcept callout -->
+  <rect x="30" y="680" width="1120" height="25" rx="6" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.5"/>
+  <text x="590" y="697" text-anchor="middle" font-size="11" fill="#1565c0">Move constructor is marked noexcept — it never allocates, so it can never throw. This lets std::vector use it during reallocation.</text>
+
+  <!-- ==================== ARROW MARKERS ==================== -->
+  <defs>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2e7d32"/>
+    </marker>
+  </defs>
+
+</svg>

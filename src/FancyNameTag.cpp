@@ -34,6 +34,7 @@ FancyNameTag::FancyNameTag(int id, const std::string& company, const Bio& bio)
     if (bio_->year <= 0) {
         throw std::invalid_argument("FancyNameTag bio year must be positive");
     }
+
     // Log construction with the Bio contents and its heap address
     // In C++, 'this' is a pointer to the current object.
     // It plays the same role as 'self' in Python, but explicitly as a pointer.
@@ -53,7 +54,12 @@ FancyNameTag::FancyNameTag(int id, const std::string& company, const Bio& bio)
 
 // Destructor: cleans up the heap-allocated Bio
 FancyNameTag::~FancyNameTag() {
-    std::cout << "Destructor (STACK " << shortAddr(this) << "): id=" << id_ << ", bio=";
+    std::cout << "Destructor (STACK " 
+              << shortAddr(this) 
+              << "): id=" 
+              << id_ 
+              << ", bio=";
+
     // Check if bio_ is still valid (not moved)
     if (bio_) {
         // Print the Bio contents and address before deleting
@@ -76,16 +82,21 @@ FancyNameTag::~FancyNameTag() {
 FancyNameTag::FancyNameTag(const FancyNameTag& other)
     : id_(other.id_), 
       company_(other.company_), 
+      // *other.bio_ dereferences the pointer: follows the address to get the
+      // actual Bio object on the heap. Without the *, we'd be passing a Bio*
+      // (an address) instead of a Bio (the object). Then new Bio(...) calls
+      // Bio's copy constructor with that object, allocating a new copy on the heap.
       bio_(new Bio(*other.bio_)) {
-    // Log the copy, showing the two different heap addresses
-    std::cout << "Copy Constructor (STACK " 
-              << shortAddr(this) 
-              << "): id=" 
-              << id_
-              << ", copied bio from HEAP " 
-              << shortAddr(other.bio_)
-              << " to HEAP " << shortAddr(bio_) 
-              << "\n";
+
+        // Log the copy, showing the two different heap addresses
+        std::cout << "Copy Constructor (STACK " 
+                  << shortAddr(this) 
+                  << "): id=" 
+                  << id_
+                  << ", copied bio from HEAP " 
+                  << shortAddr(other.bio_)
+                  << " to HEAP " << shortAddr(bio_) 
+                  << "\n";
 }
 
 // Copy assignment operator: replaces this object's data with a deep copy of other
@@ -99,6 +110,7 @@ FancyNameTag& FancyNameTag::operator=(const FancyNameTag& other) {
         id_ = other.id_;
         company_ = other.company_;
         // Allocate new heap memory and copy the Bio data (deep copy)
+        // *other.bio_ dereferences the pointer to get the actual Bio object (see copy constructor)
         bio_ = new Bio(*other.bio_);
     }
     // Return *this to support chaining (e.g. a = b = c)
@@ -107,6 +119,8 @@ FancyNameTag& FancyNameTag::operator=(const FancyNameTag& other) {
 
 // Move constructor: takes ownership of other's Bio pointer instead of copying
 // This is much faster than copying because no heap allocation is needed
+// noexcept: nothing here can throw (int copy, string move, pointer swap),
+// and std::vector requires noexcept to use move instead of copy during reallocation.
 FancyNameTag::FancyNameTag(FancyNameTag&& other) noexcept
     : id_(other.id_),
       // std::move transfers ownership of the string's internal buffer
@@ -125,6 +139,7 @@ FancyNameTag::FancyNameTag(FancyNameTag&& other) noexcept
 }
 
 // Move assignment operator: replaces this object's data by stealing from other
+// Also noexcept — same reason: no allocation, nothing that can throw.
 FancyNameTag& FancyNameTag::operator=(FancyNameTag&& other) noexcept {
     std::cout << "Move Assignment Operator\n";
     // Self-assignment check: don't delete our own data if moving to ourselves

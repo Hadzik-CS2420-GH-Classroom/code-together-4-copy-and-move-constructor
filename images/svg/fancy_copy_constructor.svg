@@ -47,7 +47,7 @@
   <text x="295" y="204" fill="#333" font-size="11">dept = "Comp Sci"</text>
   <text x="295" y="222" fill="#333" font-size="11">year = 2010</text>
 
-  <text x="375" y="268" text-anchor="middle" font-size="10" fill="#2e7d32">HEAP addr: xxxxx</text>
+  <text x="375" y="268" text-anchor="middle" font-size="10" fill="#2e7d32">HEAP addr: aaa11</text>
 
   <!-- Arrow: bio_ -> Bio -->
   <line x1="203" y1="242" x2="283" y2="200" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrowGreen)"/>

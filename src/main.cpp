@@ -6,15 +6,6 @@
 #include <iostream>
 #include <utility>
 
-// Helper function that returns a FancyNameTag by value.
-// Returning by value may trigger the move constructor.
-FancyNameTag createFancyNameTag(int id, const std::string& company, const Bio& bio) {
-    // Construct a local FancyNameTag
-    FancyNameTag tag(id, company, bio);
-    // Returning a local variable by value may invoke the move constructor
-    return tag;
-}
-
 int main() {
     // -------------------------------------------------------
     // Part 1: NameTag (stack-only members, default copy/move)
@@ -112,7 +103,6 @@ int main() {
     //
     // When would you use a move instead of a copy?
     //   - When the source object is temporary or about to be destroyed
-    //   - When you're transferring ownership (e.g., returning from a function)
     //   - When copying is expensive (large strings, heap data) and you don't need the original anymore
     // For NameTag (stack-only), move and copy behave the same — the compiler just copies each member.
     // The real benefit of move shows up in Part 2 (FancyNameTag) where it avoids a heap allocation.
@@ -266,20 +256,6 @@ int main() {
     // Print fMoveAssigned to verify it took fMoved's data
 
     fMoveAssigned.print("fMoveAssigned");
-
-    // --- Move from Function Return ---
-
-    std::cout << "\n--- Move from Function Return ---\n";
-
-    // The function creates a local FancyNameTag and returns it by value.
-    // 
-    // The compiler may use move construction or copy elision (NRVO) here.
-
-    FancyNameTag fFromFunc = createFancyNameTag(4, "Weber State University", {"Diana", "Research Assistant", "Data Science", 2023});
-    
-    // Print fFromFunc to see the result
-
-    fFromFunc.print("fFromFunc");
 
     // All local variables are destroyed in reverse order when main() returns
 

@@ -26,21 +26,44 @@
 class FancyNameTag {
 public:
     // Constructor: creates a new Bio on the heap from the given bio
+
     FancyNameTag(int id, const std::string& company, const Bio& bio);
 
 	// Destructor: frees the heap-allocated Bio (REQUIRED by Rule of Five)
+
     ~FancyNameTag();
 
     // Copy constructor: performs a deep copy of the Bio (REQUIRED by Rule of Five)
+
     FancyNameTag(const FancyNameTag& other);
 
     // Copy assignment operator: deep copies the Bio from another FancyNameTag (REQUIRED by Rule of Five)
+
     FancyNameTag& operator=(const FancyNameTag& other);
 
     // Move constructor: transfers ownership of the Bio pointer (REQUIRED by Rule of Five)
+    
+    // The && means "rvalue reference." An rvalue is a temporary value with no
+    // permanent address — something you can read from but not assign to.
+    // Examples: the literal 42 or the result of (x + 3).
+    // std::move() casts an lvalue (a named variable) into an rvalue reference,
+    // which tells the compiler: "I'm done with this object, steal its resources."
+    
+    // noexcept is a promise that this function will never throw an exception.
+    // Why it matters: std::vector will REFUSE to use your move constructor unless
+    // it's noexcept. When a vector grows, it must relocate elements to a bigger
+    // buffer. If a move throws halfway through, some elements are already gutted
+    // (moved-from) — the old buffer is ruined and there's no way to roll back.
+    // So vector plays it safe: noexcept move = fast (steal pointers), no noexcept
+    // = falls back to copy (slow but safe, originals are still intact if it throws).
+    // Our move just copies an int, moves a string, and swaps a pointer — nothing
+    // that can throw — so marking it noexcept is both accurate and necessary.
+
     FancyNameTag(FancyNameTag&& other) noexcept;
 
     // Move assignment operator: transfers ownership of the Bio pointer (REQUIRED by Rule of Five)
+    // Also noexcept for the same reason — no allocation, nothing that can throw.
+
     FancyNameTag& operator=(FancyNameTag&& other) noexcept;
 
     // Prints all FancyNameTag data with a right-justified label and optional state on the right
@@ -53,18 +76,25 @@ public:
     // so they can't modify our private id_ no matter what.
     // The trailing "const" means this method promises not to modify the object,
     // which allows it to be called on const FancyNameTag references/objects.
+
     int getId() const;
+
     // Returns the company by const reference to avoid copying the entire string.
     // "const std::string&" prevents the caller from modifying our private data.
+
     const std::string& getCompany() const;
+
     // Returns the Bio by const reference to avoid copying the entire struct.
+
     const Bio& getBio() const;
 
     // Sets the id after validating it is positive.
     // This is how we allow modification while still enforcing our invariants.
+
     void setId(int id);
     // Sets the company name after validating it is not empty.
     // This is how we allow modification while still enforcing our invariants.
+
     void setCompany(const std::string& company);
 
 private:
