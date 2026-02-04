@@ -21,6 +21,10 @@
 struct Bio {
     // All members below are public by default (no "public:" needed in a struct)
 
+    // Naming convention: struct members use plain names (no trailing underscore).
+    // In contrast, class private members use a trailing underscore (e.g. id_, company_).
+    // The underscore signals "this is private, use getters/setters to access it."
+    // Struct members are public, so no underscore is needed.
     std::string name;       // person's name
     std::string title;      // job title
     std::string department; // department they belong to

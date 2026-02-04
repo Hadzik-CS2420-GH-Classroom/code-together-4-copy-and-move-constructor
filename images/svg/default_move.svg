@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 520" font-family="Consolas, monospace" font-size="13">
+
+  <!-- ==================== TITLE ==================== -->
+  <text x="550" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#222">
+    Move Semantics: What Happens to Each Member?
+  </text>
+  <text x="550" y="50" text-anchor="middle" font-size="13" fill="#666">
+    NameTag moved(std::move(original));
+  </text>
+
+  <!-- ==================== BEFORE (left half) ==================== -->
+  <text x="260" y="80" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">Before std::move</text>
+
+  <!-- Stack region -->
+  <rect x="30" y="95" width="280" height="210" rx="8" fill="#e8f0fe" stroke="#4285f4" stroke-width="1.5"/>
+  <text x="40" y="115" font-size="12" font-weight="bold" fill="#4285f4">STACK</text>
+
+  <!-- original box -->
+  <rect x="50" y="125" width="240" height="165" rx="6" fill="#fff" stroke="#333" stroke-width="2"/>
+  <text x="170" y="148" text-anchor="middle" font-weight="bold" font-size="14" fill="#333">original</text>
+
+  <!-- id_ row -->
+  <rect x="65" y="158" width="210" height="30" rx="4" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+  <text x="75" y="178" fill="#333">id_ =</text>
+  <text x="120" y="178" font-weight="bold" fill="#e65100">1</text>
+  <text x="200" y="178" font-size="10" fill="#888">(int)</text>
+
+  <!-- name_ row -->
+  <rect x="65" y="196" width="210" height="30" rx="4" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1"/>
+  <text x="75" y="216" fill="#333">name_</text>
+  <circle cx="260" cy="211" r="5" fill="#2e7d32"/>
+
+  <!-- company_ row -->
+  <rect x="65" y="234" width="210" height="30" rx="4" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1"/>
+  <text x="75" y="254" fill="#333">company_</text>
+  <circle cx="260" cy="249" r="5" fill="#2e7d32"/>
+
+  <!-- Heap region (before) -->
+  <rect x="340" y="95" width="170" height="210" rx="8" fill="#e8f8e8" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="350" y="115" font-size="12" font-weight="bold" fill="#2e7d32">HEAP</text>
+
+  <!-- "Waldo" heap block -->
+  <rect x="360" y="196" width="130" height="30" rx="4" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="425" y="216" text-anchor="middle" font-weight="bold" fill="#1b5e20">"Waldo"</text>
+
+  <!-- "Weber State University" heap block -->
+  <rect x="345" y="234" width="160" height="30" rx="4" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="425" y="254" text-anchor="middle" font-weight="bold" font-size="11" fill="#1b5e20">"Weber State Univ..."</text>
+
+  <!-- Arrows: name_ -> "Waldo" -->
+  <line x1="265" y1="211" x2="358" y2="211" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <!-- Arrows: company_ -> "Weber..." -->
+  <line x1="265" y1="249" x2="343" y2="249" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- ==================== BIG ARROW ==================== -->
+  <text x="550" y="215" text-anchor="middle" font-size="28" fill="#555">&#x27A1;</text>
+  <text x="550" y="238" text-anchor="middle" font-size="11" fill="#888">std::move</text>
+
+  <!-- ==================== AFTER (right half) ==================== -->
+  <text x="840" y="80" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">After std::move</text>
+
+  <!-- Stack region (after) -->
+  <rect x="590" y="95" width="280" height="390" rx="8" fill="#e8f0fe" stroke="#4285f4" stroke-width="1.5"/>
+  <text x="600" y="115" font-size="12" font-weight="bold" fill="#4285f4">STACK</text>
+
+  <!-- original box (grayed out, dashed) -->
+  <rect x="610" y="125" width="240" height="165" rx="6" fill="#f5f5f5" stroke="#999" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="730" y="148" text-anchor="middle" font-weight="bold" font-size="14" fill="#999">original (moved-from)</text>
+
+  <!-- id_ row (still has value) -->
+  <rect x="625" y="158" width="210" height="30" rx="4" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+  <text x="635" y="178" fill="#333">id_ =</text>
+  <text x="680" y="178" font-weight="bold" fill="#e65100">1</text>
+  <text x="710" y="178" font-size="10" fill="#888">&#x2190; still here!</text>
+
+  <!-- name_ row (empty) -->
+  <rect x="625" y="196" width="210" height="30" rx="4" fill="#ffebee" stroke="#c62828" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="635" y="216" fill="#999">name_ =</text>
+  <text x="710" y="216" font-weight="bold" fill="#c62828">""</text>
+
+  <!-- company_ row (empty) -->
+  <rect x="625" y="234" width="210" height="30" rx="4" fill="#ffebee" stroke="#c62828" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="635" y="254" fill="#999">company_ =</text>
+  <text x="725" y="254" font-weight="bold" fill="#c62828">""</text>
+
+  <!-- moved box (solid, new) -->
+  <rect x="610" y="305" width="240" height="165" rx="6" fill="#fff" stroke="#1565c0" stroke-width="2.5"/>
+  <text x="730" y="328" text-anchor="middle" font-weight="bold" font-size="14" fill="#1565c0">moved</text>
+
+  <!-- id_ row -->
+  <rect x="625" y="338" width="210" height="30" rx="4" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+  <text x="635" y="358" fill="#333">id_ =</text>
+  <text x="680" y="358" font-weight="bold" fill="#e65100">1</text>
+  <text x="710" y="358" font-size="10" fill="#888">(copied)</text>
+
+  <!-- name_ row -->
+  <rect x="625" y="376" width="210" height="30" rx="4" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1"/>
+  <text x="635" y="396" fill="#333">name_</text>
+  <circle cx="820" cy="391" r="5" fill="#2e7d32"/>
+
+  <!-- company_ row -->
+  <rect x="625" y="414" width="210" height="30" rx="4" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1"/>
+  <text x="635" y="434" fill="#333">company_</text>
+  <circle cx="820" cy="429" r="5" fill="#2e7d32"/>
+
+  <!-- Heap region (after - same blocks, new arrows) -->
+  <rect x="900" y="95" width="170" height="390" rx="8" fill="#e8f8e8" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="910" y="115" font-size="12" font-weight="bold" fill="#2e7d32">HEAP</text>
+
+  <!-- "Waldo" heap block (SAME block, not copied) -->
+  <rect x="920" y="376" width="130" height="30" rx="4" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="985" y="396" text-anchor="middle" font-weight="bold" fill="#1b5e20">"Waldo"</text>
+
+  <!-- "Weber State University" heap block (SAME block) -->
+  <rect x="905" y="414" width="160" height="30" rx="4" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="985" y="434" text-anchor="middle" font-weight="bold" font-size="11" fill="#1b5e20">"Weber State Univ..."</text>
+
+  <!-- Arrows: moved.name_ -> "Waldo" (same heap block!) -->
+  <line x1="825" y1="391" x2="918" y2="391" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <!-- Arrows: moved.company_ -> "Weber..." -->
+  <line x1="825" y1="429" x2="903" y2="429" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- No arrows from original (they were stolen) -->
+  <!-- X marks on original's string rows -->
+  <text x="818" y="216" font-size="14" font-weight="bold" fill="#c62828">&#x2717;</text>
+  <text x="818" y="254" font-size="14" font-weight="bold" fill="#c62828">&#x2717;</text>
+
+  <!-- ==================== CALLOUT BOXES ==================== -->
+
+  <!-- int callout -->
+  <rect x="30" y="340" width="240" height="50" rx="6" fill="#fff3e0" stroke="#e65100" stroke-width="1.5"/>
+  <text x="150" y="360" text-anchor="middle" font-size="12" font-weight="bold" fill="#e65100">int: just copied</text>
+  <text x="150" y="378" text-anchor="middle" font-size="11" fill="#666">Nothing to steal — value stays</text>
+
+  <!-- string callout -->
+  <rect x="30" y="400" width="280" height="50" rx="6" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="170" y="420" text-anchor="middle" font-size="12" font-weight="bold" fill="#2e7d32">std::string: heap buffer transferred</text>
+  <text x="170" y="438" text-anchor="middle" font-size="11" fill="#666">Pointer stolen, no copy needed!</text>
+
+  <!-- "Same heap memory" callout -->
+  <rect x="30" y="460" width="380" height="40" rx="6" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.5"/>
+  <text x="220" y="485" text-anchor="middle" font-size="12" font-weight="bold" fill="#1565c0">Key: Move = transfer ownership, not copy data</text>
+
+  <!-- ==================== ARROW MARKERS ==================== -->
+  <defs>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2e7d32"/>
+    </marker>
+  </defs>
+
+</svg>

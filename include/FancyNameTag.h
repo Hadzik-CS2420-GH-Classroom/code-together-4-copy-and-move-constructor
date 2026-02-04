@@ -28,23 +28,25 @@ public:
     // Constructor: creates a new Bio on the heap from the given bio
     FancyNameTag(int id, const std::string& company, const Bio& bio);
 
-    // Destructor: frees the heap-allocated Bio
+	// Destructor: frees the heap-allocated Bio (REQUIRED by Rule of Five)
     ~FancyNameTag();
 
-    // Copy constructor: performs a deep copy of the Bio
+    // Copy constructor: performs a deep copy of the Bio (REQUIRED by Rule of Five)
     FancyNameTag(const FancyNameTag& other);
 
-    // Copy assignment operator: deep copies the Bio from another FancyNameTag
+    // Copy assignment operator: deep copies the Bio from another FancyNameTag (REQUIRED by Rule of Five)
     FancyNameTag& operator=(const FancyNameTag& other);
 
-    // Move constructor: transfers ownership of the Bio pointer
+    // Move constructor: transfers ownership of the Bio pointer (REQUIRED by Rule of Five)
     FancyNameTag(FancyNameTag&& other) noexcept;
 
-    // Move assignment operator: transfers ownership of the Bio pointer
+    // Move assignment operator: transfers ownership of the Bio pointer (REQUIRED by Rule of Five)
     FancyNameTag& operator=(FancyNameTag&& other) noexcept;
 
-    // Prints all FancyNameTag data with a label prefix
-    void print(const std::string& label) const;
+    // Prints all FancyNameTag data with a right-justified label and optional state on the right
+    // Example: print("fOriginal", "unchanged") produces:
+    //     fOriginal  STACK xxxxx  id=1  company="WSU"  bio={...} HEAP xxxxx  (unchanged)
+    void print(const std::string& label, const std::string& state = "") const;
 
     // Returns the id by value (int is small/cheap to copy, no reference needed).
     // No need for "const int" here - the caller gets their own copy,
@@ -57,6 +59,13 @@ public:
     const std::string& getCompany() const;
     // Returns the Bio by const reference to avoid copying the entire struct.
     const Bio& getBio() const;
+
+    // Sets the id after validating it is positive.
+    // This is how we allow modification while still enforcing our invariants.
+    void setId(int id);
+    // Sets the company name after validating it is not empty.
+    // This is how we allow modification while still enforcing our invariants.
+    void setCompany(const std::string& company);
 
 private:
     int id_;            // numeric identifier (stack-allocated)

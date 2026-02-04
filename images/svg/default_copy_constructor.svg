@@ -1,0 +1,204 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 895" font-family="Consolas, monospace" font-size="13">
+
+  <!-- ==================== TITLE ==================== -->
+  <text x="550" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#222">
+    Default Copy Constructor: Creating a New Object from an Existing One
+  </text>
+  <text x="550" y="50" text-anchor="middle" font-size="13" fill="#666">
+    NameTag copied(original);
+  </text>
+
+  <!-- ==================== BEFORE (left half) ==================== -->
+  <text x="220" y="80" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">Before Copy</text>
+
+  <!-- Stack region (before) -->
+  <rect x="30" y="95" width="230" height="240" rx="8" fill="#e8f0fe" stroke="#4285f4" stroke-width="1.5"/>
+  <text x="40" y="115" font-size="12" font-weight="bold" fill="#4285f4">STACK</text>
+
+  <!-- original box (before) -->
+  <rect x="50" y="125" width="195" height="195" rx="6" fill="#fff" stroke="#333" stroke-width="2"/>
+  <text x="147" y="148" text-anchor="middle" font-weight="bold" font-size="14" fill="#333">original</text>
+
+  <!-- original id_ -->
+  <rect x="62" y="158" width="170" height="28" rx="4" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+  <text x="72" y="177" fill="#333">id_ =</text>
+  <text x="117" y="177" font-weight="bold" fill="#e65100">1</text>
+
+  <!-- original name_ -->
+  <rect x="62" y="192" width="170" height="28" rx="4" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1"/>
+  <text x="72" y="211" fill="#333">name_ =</text>
+  <text x="137" y="211" font-weight="bold" fill="#2e7d32">"Waldo"</text>
+
+  <!-- original company_ -->
+  <rect x="62" y="226" width="170" height="48" rx="4" fill="#e3f2fd" stroke="#1565c0" stroke-width="1"/>
+  <text x="72" y="245" fill="#333">company_ =</text>
+  <text x="72" y="265" font-weight="bold" font-size="11" fill="#1565c0">"Weber State Univ."</text>
+
+  <!-- No "copied" exists yet label -->
+  <rect x="50" y="340" width="195" height="40" rx="6" fill="#f5f5f5" stroke="#bbb" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <text x="147" y="365" text-anchor="middle" font-size="12" fill="#999">copied does not exist yet</text>
+
+  <!-- ==================== BIG ARROW ==================== -->
+  <text x="370" y="215" text-anchor="middle" font-size="28" fill="#555">&#x27A1;</text>
+  <text x="370" y="240" text-anchor="middle" font-size="11" fill="#888">NameTag copied(original)</text>
+
+  <!-- ==================== AFTER (right half) ==================== -->
+  <text x="770" y="80" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">After Copy</text>
+
+  <!-- Stack region (after) -->
+  <rect x="480" y="95" width="590" height="340" rx="8" fill="#e8f0fe" stroke="#4285f4" stroke-width="1.5"/>
+  <text x="490" y="115" font-size="12" font-weight="bold" fill="#4285f4">STACK</text>
+
+  <!-- original box (after — unchanged) -->
+  <rect x="500" y="125" width="195" height="195" rx="6" fill="#fff" stroke="#333" stroke-width="2"/>
+  <text x="597" y="148" text-anchor="middle" font-weight="bold" font-size="14" fill="#333">original</text>
+
+  <!-- original id_ -->
+  <rect x="512" y="158" width="170" height="28" rx="4" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+  <text x="522" y="177" fill="#333">id_ =</text>
+  <text x="567" y="177" font-weight="bold" fill="#e65100">1</text>
+
+  <!-- original name_ -->
+  <rect x="512" y="192" width="170" height="28" rx="4" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1"/>
+  <text x="522" y="211" fill="#333">name_ =</text>
+  <text x="587" y="211" font-weight="bold" fill="#2e7d32">"Waldo"</text>
+
+  <!-- original company_ -->
+  <rect x="512" y="226" width="170" height="48" rx="4" fill="#e3f2fd" stroke="#1565c0" stroke-width="1"/>
+  <text x="522" y="245" fill="#333">company_ =</text>
+  <text x="522" y="265" font-weight="bold" font-size="11" fill="#1565c0">"Weber State Univ."</text>
+
+  <!-- unchanged label -->
+  <text x="597" y="336" text-anchor="middle" font-size="12" fill="#888">(unchanged)</text>
+
+  <!-- Copy arrows from original to copied -->
+  <line x1="695" y1="172" x2="755" y2="172" stroke="#e65100" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrowOrange)"/>
+  <line x1="695" y1="206" x2="755" y2="206" stroke="#2e7d32" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrowGreen)"/>
+  <line x1="695" y1="250" x2="755" y2="250" stroke="#1565c0" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrowBlue)"/>
+
+  <!-- "copy" labels on arrows -->
+  <text x="725" y="165" text-anchor="middle" font-size="9" fill="#888">copy</text>
+  <text x="725" y="199" text-anchor="middle" font-size="9" fill="#888">copy</text>
+  <text x="725" y="243" text-anchor="middle" font-size="9" fill="#888">copy</text>
+
+  <!-- copied box (after — NEW object with same data, highlighted) -->
+  <rect x="770" y="125" width="195" height="195" rx="6" fill="#fffde7" stroke="#f57f17" stroke-width="2.5"/>
+  <text x="867" y="148" text-anchor="middle" font-weight="bold" font-size="14" fill="#f57f17">copied (NEW)</text>
+
+  <!-- copied id_ -->
+  <rect x="782" y="158" width="170" height="28" rx="4" fill="#fff3e0" stroke="#e65100" stroke-width="1.5"/>
+  <text x="792" y="177" fill="#333">id_ =</text>
+  <text x="837" y="177" font-weight="bold" fill="#e65100">1</text>
+
+  <!-- copied name_ -->
+  <rect x="782" y="192" width="170" height="28" rx="4" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="792" y="211" fill="#333">name_ =</text>
+  <text x="857" y="211" font-weight="bold" fill="#2e7d32">"Waldo"</text>
+
+  <!-- copied company_ -->
+  <rect x="782" y="226" width="170" height="48" rx="4" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.5"/>
+  <text x="792" y="245" fill="#333">company_ =</text>
+  <text x="792" y="265" font-weight="bold" font-size="11" fill="#1565c0">"Weber State Univ."</text>
+
+  <!-- separate object label -->
+  <text x="867" y="336" text-anchor="middle" font-size="12" fill="#f57f17">separate object, same data</text>
+
+  <!-- ==================== CALLOUT BOXES ==================== -->
+
+  <!-- What the compiler generates callout -->
+  <rect x="30" y="405" width="500" height="95" rx="6" fill="#fff3e0" stroke="#e65100" stroke-width="1.5"/>
+  <text x="280" y="425" text-anchor="middle" font-size="12" font-weight="bold" fill="#e65100">What the compiler generates for you:</text>
+  <text x="280" y="445" text-anchor="middle" font-size="11" fill="#666">The default copy constructor copies each member one by one:</text>
+  <text x="280" y="463" text-anchor="middle" font-size="11" fill="#444">copied.id_      = original.id_;</text>
+  <text x="280" y="478" text-anchor="middle" font-size="11" fill="#444">copied.name_    = original.name_;</text>
+  <text x="280" y="493" text-anchor="middle" font-size="11" fill="#444">copied.company_ = original.company_;</text>
+
+  <!-- Independence callout -->
+  <rect x="570" y="405" width="500" height="95" rx="6" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="820" y="425" text-anchor="middle" font-size="12" font-weight="bold" fill="#2e7d32">Two independent objects</text>
+  <text x="820" y="445" text-anchor="middle" font-size="11" fill="#666">After the copy, original and copied are completely separate.</text>
+  <text x="820" y="463" text-anchor="middle" font-size="11" fill="#666">Changing one does NOT affect the other.</text>
+  <text x="820" y="481" text-anchor="middle" font-size="11" fill="#666">This works automatically because all members (int, std::string)</text>
+  <text x="820" y="496" text-anchor="middle" font-size="11" fill="#666">know how to copy themselves correctly.</text>
+
+  <!-- ==================== PROVE INDEPENDENCE ==================== -->
+
+  <!-- Divider line -->
+  <line x1="30" y1="520" x2="1070" y2="520" stroke="#ccc" stroke-width="1" stroke-dasharray="8,4"/>
+
+  <text x="550" y="555" text-anchor="middle" font-size="18" font-weight="bold" fill="#222">
+    Prove Independence: Modify the Copy
+  </text>
+  <text x="550" y="575" text-anchor="middle" font-size="13" fill="#666">
+    copied.setId(2);  copied.setName("Scott");  copied.setCompany("The School of Computing");
+  </text>
+
+  <!-- Stack region (prove independence) -->
+  <rect x="130" y="590" width="590" height="290" rx="8" fill="#e8f0fe" stroke="#4285f4" stroke-width="1.5"/>
+  <text x="140" y="610" font-size="12" font-weight="bold" fill="#4285f4">STACK</text>
+
+  <!-- original box (still Waldo — unchanged) -->
+  <rect x="150" y="620" width="195" height="195" rx="6" fill="#fff" stroke="#333" stroke-width="2"/>
+  <text x="247" y="643" text-anchor="middle" font-weight="bold" font-size="14" fill="#333">original</text>
+
+  <!-- original id_ -->
+  <rect x="162" y="653" width="170" height="28" rx="4" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+  <text x="172" y="672" fill="#333">id_ =</text>
+  <text x="217" y="672" font-weight="bold" fill="#e65100">1</text>
+
+  <!-- original name_ -->
+  <rect x="162" y="687" width="170" height="28" rx="4" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1"/>
+  <text x="172" y="706" fill="#333">name_ =</text>
+  <text x="237" y="706" font-weight="bold" fill="#2e7d32">"Waldo"</text>
+
+  <!-- original company_ -->
+  <rect x="162" y="721" width="170" height="48" rx="4" fill="#e3f2fd" stroke="#1565c0" stroke-width="1"/>
+  <text x="172" y="740" fill="#333">company_ =</text>
+  <text x="172" y="760" font-weight="bold" font-size="11" fill="#1565c0">"Weber State Univ."</text>
+
+  <!-- unchanged label for original -->
+  <text x="247" y="830" text-anchor="middle" font-size="12" font-weight="bold" fill="#2e7d32">&#x2714; still unchanged</text>
+
+  <!-- Big X between the two boxes to show no connection -->
+  <text x="425" y="740" text-anchor="middle" font-size="36" font-weight="bold" fill="#c62828">&#x2718;</text>
+  <text x="425" y="765" text-anchor="middle" font-size="11" fill="#c62828">no effect</text>
+
+  <!-- copied box (now Scott — modified, highlighted) -->
+  <rect x="500" y="620" width="205" height="225" rx="6" fill="#fffde7" stroke="#f57f17" stroke-width="2.5"/>
+  <text x="602" y="643" text-anchor="middle" font-weight="bold" font-size="14" fill="#f57f17">copied (modified)</text>
+
+  <!-- copied id_ (was 1, now 2) -->
+  <rect x="512" y="653" width="180" height="44" rx="4" fill="#fff3e0" stroke="#e65100" stroke-width="1.5"/>
+  <text x="522" y="672" fill="#333">id_ =</text>
+  <text x="567" y="672" font-weight="bold" fill="#e65100">2</text>
+  <text x="522" y="690" font-size="10" fill="#f57f17">was 1</text>
+
+  <!-- copied name_ (was "Waldo", now "Scott") -->
+  <rect x="512" y="703" width="180" height="44" rx="4" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="522" y="722" fill="#333">name_ =</text>
+  <text x="587" y="722" font-weight="bold" fill="#2e7d32">"Scott"</text>
+  <text x="522" y="740" font-size="10" fill="#f57f17">was "Waldo"</text>
+
+  <!-- copied company_ (was "Weber State Univ.", now "School of Computing") -->
+  <rect x="512" y="753" width="180" height="62" rx="4" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.5"/>
+  <text x="522" y="772" fill="#333">company_ =</text>
+  <text x="522" y="792" font-weight="bold" font-size="11" fill="#1565c0">"School of Comp."</text>
+  <text x="522" y="808" font-size="10" fill="#f57f17">was "Weber State Univ."</text>
+
+  <!-- modified label for copied -->
+  <text x="602" y="865" text-anchor="middle" font-size="12" font-weight="bold" fill="#f57f17">all three members changed</text>
+
+  <!-- ==================== ARROW MARKERS ==================== -->
+  <defs>
+    <marker id="arrowOrange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#e65100"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2e7d32"/>
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1565c0"/>
+    </marker>
+  </defs>
+
+</svg>

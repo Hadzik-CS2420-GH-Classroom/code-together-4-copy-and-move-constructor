@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 520" font-family="Consolas, monospace" font-size="13">
+
+  <!-- ==================== TITLE ==================== -->
+  <text x="550" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#222">
+    Default Copy Assignment: Overwriting an Existing Object
+  </text>
+  <text x="550" y="50" text-anchor="middle" font-size="13" fill="#666">
+    copied = original;
+  </text>
+
+  <!-- ==================== BEFORE (left half) ==================== -->
+  <text x="250" y="80" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">Before Assignment</text>
+
+  <!-- Stack region (before) -->
+  <rect x="30" y="95" width="460" height="290" rx="8" fill="#e8f0fe" stroke="#4285f4" stroke-width="1.5"/>
+  <text x="40" y="115" font-size="12" font-weight="bold" fill="#4285f4">STACK</text>
+
+  <!-- original box (before) -->
+  <rect x="50" y="125" width="200" height="160" rx="6" fill="#fff" stroke="#333" stroke-width="2"/>
+  <text x="150" y="148" text-anchor="middle" font-weight="bold" font-size="14" fill="#333">original (Waldo)</text>
+
+  <!-- original id_ -->
+  <rect x="65" y="158" width="170" height="28" rx="4" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+  <text x="75" y="177" fill="#333">id_ =</text>
+  <text x="120" y="177" font-weight="bold" fill="#e65100">1</text>
+
+  <!-- original name_ -->
+  <rect x="65" y="192" width="170" height="28" rx="4" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1"/>
+  <text x="75" y="211" fill="#333">name_ =</text>
+  <text x="140" y="211" font-weight="bold" fill="#2e7d32">"Waldo"</text>
+
+  <!-- original company_ -->
+  <rect x="65" y="226" width="170" height="48" rx="4" fill="#e3f2fd" stroke="#1565c0" stroke-width="1"/>
+  <text x="75" y="245" fill="#333">company_ =</text>
+  <text x="80" y="265" font-weight="bold" font-size="11" fill="#1565c0">"Weber State Univ."</text>
+
+  <!-- copied box (before — Scott's data) -->
+  <rect x="280" y="125" width="200" height="160" rx="6" fill="#fff" stroke="#333" stroke-width="2"/>
+  <text x="380" y="148" text-anchor="middle" font-weight="bold" font-size="14" fill="#333">copied (Scott)</text>
+
+  <!-- copied id_ -->
+  <rect x="295" y="158" width="170" height="28" rx="4" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+  <text x="305" y="177" fill="#333">id_ =</text>
+  <text x="350" y="177" font-weight="bold" fill="#e65100">2</text>
+
+  <!-- copied name_ -->
+  <rect x="295" y="192" width="170" height="28" rx="4" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1"/>
+  <text x="305" y="211" fill="#333">name_ =</text>
+  <text x="370" y="211" font-weight="bold" fill="#2e7d32">"Scott"</text>
+
+  <!-- copied company_ -->
+  <rect x="295" y="226" width="170" height="48" rx="4" fill="#e3f2fd" stroke="#1565c0" stroke-width="1"/>
+  <text x="305" y="245" fill="#333">company_ =</text>
+  <text x="300" y="265" font-weight="bold" font-size="11" fill="#1565c0">"School of Comp."</text>
+
+  <!-- ==================== BIG ARROW ==================== -->
+  <text x="545" y="215" text-anchor="middle" font-size="28" fill="#555">&#x27A1;</text>
+  <text x="545" y="240" text-anchor="middle" font-size="11" fill="#888">copied = original</text>
+
+  <!-- ==================== AFTER (right half) ==================== -->
+  <text x="840" y="80" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">After Assignment</text>
+
+  <!-- Stack region (after) -->
+  <rect x="600" y="95" width="460" height="330" rx="8" fill="#e8f0fe" stroke="#4285f4" stroke-width="1.5"/>
+  <text x="610" y="115" font-size="12" font-weight="bold" fill="#4285f4">STACK</text>
+
+  <!-- original box (after — unchanged) -->
+  <rect x="620" y="125" width="200" height="160" rx="6" fill="#fff" stroke="#333" stroke-width="2"/>
+  <text x="720" y="148" text-anchor="middle" font-weight="bold" font-size="14" fill="#333">original (Waldo)</text>
+
+  <!-- original id_ -->
+  <rect x="635" y="158" width="170" height="28" rx="4" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+  <text x="645" y="177" fill="#333">id_ =</text>
+  <text x="690" y="177" font-weight="bold" fill="#e65100">1</text>
+
+  <!-- original name_ -->
+  <rect x="635" y="192" width="170" height="28" rx="4" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1"/>
+  <text x="645" y="211" fill="#333">name_ =</text>
+  <text x="710" y="211" font-weight="bold" fill="#2e7d32">"Waldo"</text>
+
+  <!-- original company_ -->
+  <rect x="635" y="226" width="170" height="48" rx="4" fill="#e3f2fd" stroke="#1565c0" stroke-width="1"/>
+  <text x="645" y="245" fill="#333">company_ =</text>
+  <text x="650" y="265" font-weight="bold" font-size="11" fill="#1565c0">"Weber State Univ."</text>
+
+  <!-- copied box (after — now has Waldo's data, highlighted) -->
+  <rect x="850" y="125" width="200" height="200" rx="6" fill="#fffde7" stroke="#f57f17" stroke-width="2.5"/>
+  <text x="950" y="148" text-anchor="middle" font-weight="bold" font-size="14" fill="#f57f17">copied (overwritten)</text>
+
+  <!-- copied id_ (now 1) -->
+  <rect x="865" y="158" width="170" height="28" rx="4" fill="#fff3e0" stroke="#e65100" stroke-width="1.5"/>
+  <text x="875" y="177" fill="#333">id_ =</text>
+  <text x="920" y="177" font-weight="bold" fill="#e65100">1</text>
+  <text x="940" y="177" font-size="10" fill="#f57f17">&#x2190; was 2</text>
+
+  <!-- copied name_ (now "Waldo") — taller to fit "was" annotation -->
+  <rect x="865" y="192" width="170" height="44" rx="4" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="875" y="211" fill="#333">name_ =</text>
+  <text x="945" y="211" font-weight="bold" fill="#2e7d32">"Waldo"</text>
+  <text x="875" y="228" font-size="10" fill="#f57f17">was "Scott"</text>
+
+  <!-- copied company_ (now "Weber State...") — taller to fit "was" annotation -->
+  <rect x="865" y="242" width="170" height="62" rx="4" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.5"/>
+  <text x="875" y="261" fill="#333">company_ =</text>
+  <text x="880" y="279" font-weight="bold" font-size="11" fill="#1565c0">"Weber State Univ."</text>
+  <text x="880" y="296" font-size="10" fill="#f57f17">was "School of Comp."</text>
+
+  <!-- ==================== CALLOUT BOXES ==================== -->
+
+  <!-- Key difference callout -->
+  <rect x="30" y="400" width="500" height="60" rx="6" fill="#fff3e0" stroke="#e65100" stroke-width="1.5"/>
+  <text x="280" y="420" text-anchor="middle" font-size="12" font-weight="bold" fill="#e65100">Copy Constructor vs Copy Assignment</text>
+  <text x="280" y="438" text-anchor="middle" font-size="11" fill="#666">Constructor: NameTag copied(original);  — creates a NEW object</text>
+  <text x="280" y="453" text-anchor="middle" font-size="11" fill="#666">Assignment:  copied = original;         — overwrites an EXISTING object</text>
+
+  <!-- Source unchanged callout -->
+  <rect x="600" y="400" width="460" height="60" rx="6" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="830" y="420" text-anchor="middle" font-size="12" font-weight="bold" fill="#2e7d32">The source (original) is never modified</text>
+  <text x="830" y="438" text-anchor="middle" font-size="11" fill="#666">Assignment copies each member's value into the existing object.</text>
+  <text x="830" y="453" text-anchor="middle" font-size="11" fill="#666">Scott's old data is simply overwritten with Waldo's data.</text>
+
+</svg>
