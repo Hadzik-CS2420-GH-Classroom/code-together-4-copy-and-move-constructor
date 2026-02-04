@@ -7,30 +7,17 @@
 
 // Constructor: initializes id_, name_, and company_ using the member initializer list
 NameTag::NameTag(int id, const std::string& name, const std::string& company)
-    : id_(id), 
-      name_(name), 
+    : id_(id),
+      name_(name),
       company_(company) {
 
-    // Validate invariants: id must be positive
-    if (id_ <= 0) {
-        throw std::invalid_argument("NameTag id must be positive");
-    }
-    // Validate invariants: name must not be empty
-    if (name_.empty()) {
-        throw std::invalid_argument("NameTag name must not be empty");
-    }
-    // Validate invariants: company must not be empty
-    if (company_.empty()) {
-        throw std::invalid_argument("NameTag company must not be empty");
-    }
-    // Log which NameTag was constructed
-    std::cout << "Constructor: id=" 
-              << id_ 
-              << ", name=\"" 
-              << name_
-              << "\", company=\"" 
-              << company_ 
-              << "\"\n";
+    // TODO: Validate invariants — throw std::invalid_argument if:
+    //   - id_ <= 0           ("NameTag id must be positive")
+    //   - name_ is empty     ("NameTag name must not be empty")
+    //   - company_ is empty  ("NameTag company must not be empty")
+
+    // TODO: Log which NameTag was constructed using std::cout
+    // Format: Constructor: id=1, name="Waldo", company="Weber State University"
 }
 
 // Prints the NameTag data with a descriptive label and optional state hint
@@ -38,77 +25,74 @@ NameTag::NameTag(int id, const std::string& name, const std::string& company)
 // "this" is the address of the object itself on the stack
 void NameTag::print(const std::string& label, const std::string& state) const {
     // Column 1: label right-justified to 18 characters (fits longest variable name)
-    std::cout << std::right 
-              << std::setw(18) 
+    std::cout << std::right
+              << std::setw(18)
               << label
 
     // Column 2: stack address (always 5 hex chars from shortAddr)
-              
-              << "  STACK " 
+
+              << "  STACK "
               << shortAddr(this)
 
     // Column 3: id padded to 6 characters (fits "id=XX" with spacing)
 
-              << "  id=" 
-              << std::left 
-              << std::setw(6) 
+              << "  id="
+              << std::left
+              << std::setw(6)
               << id_
-    
+
     // Column 4: name padded to 12 characters
 
-              << "name=" 
-              << std::setw(12) 
+              << "name="
+              << std::setw(12)
               << ("\"" + name_ + "\"")
 
     // Column 5: company
 
-              << "company=\"" 
-              << company_ 
+              << "company=\""
+              << company_
               << "\"";
 
     // Optional state hint on the right (e.g., "(unchanged)", "(modified)")
     if (!state.empty()) {
-        std::cout << "  (" 
+        std::cout << "  ("
                   << state << ")";
     }
     std::cout << "\n";
 }
 
+// TODO: Implement the three getters below
+// Each should return the corresponding private member
+// getId() returns by value (int is cheap to copy)
+// getName() and getCompany() return by const reference (avoids copying strings)
+
 // Returns the id value
-int NameTag::getId() const { return id_; }
+int NameTag::getId() const { /* TODO */ return 0; }
 
 // Returns a const reference to the name string
-const std::string& NameTag::getName() const { return name_; }
+const std::string& NameTag::getName() const { /* TODO */ static std::string empty; return empty; }
 
 // Returns a const reference to the company string
-const std::string& NameTag::getCompany() const { return company_; }
+const std::string& NameTag::getCompany() const { /* TODO */ static std::string empty; return empty; }
+
+// TODO: Implement the three setters below
+// Each should validate the input and throw std::invalid_argument if invalid,
+// then assign the new value to the private member
 
 // Sets the id, enforcing the invariant that it must be positive
 void NameTag::setId(int id) {
-    // Validate before modifying — this is the advantage of using a setter
-    // instead of making id_ public
-    if (id <= 0) {
-        throw std::invalid_argument("NameTag id must be positive");
-    }
-    id_ = id;
+    // TODO: Validate that id > 0, throw std::invalid_argument("NameTag id must be positive") if not
+    // TODO: Assign id to id_
 }
 
 // Sets the name, enforcing the invariant that it must not be empty
 void NameTag::setName(const std::string& name) {
-    // Validate before modifying — this is the advantage of using a setter
-    // instead of making name_ public
-    if (name.empty()) {
-        throw std::invalid_argument("NameTag name must not be empty");
-    }
-    name_ = name;
+    // TODO: Validate that name is not empty, throw std::invalid_argument("NameTag name must not be empty") if not
+    // TODO: Assign name to name_
 }
 
 // Sets the company name, enforcing the invariant that it must not be empty
 void NameTag::setCompany(const std::string& company) {
-    // Validate before modifying — this is the advantage of using a setter
-    // instead of making company_ public
-    if (company.empty()) {
-        throw std::invalid_argument("NameTag company must not be empty");
-    }
-    company_ = company;
+    // TODO: Validate that company is not empty, throw std::invalid_argument("NameTag company must not be empty") if not
+    // TODO: Assign company to company_
 }
