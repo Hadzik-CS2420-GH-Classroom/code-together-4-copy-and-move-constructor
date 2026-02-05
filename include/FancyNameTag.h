@@ -12,8 +12,14 @@
 #include <string>
 
 // Same idea as NameTag, but with a heap-allocated Bio.
-// Because it owns a raw pointer, we must implement the Rule of Five:
-// destructor, copy constructor, copy assignment, move constructor, move assignment.
+// Because it owns a raw pointer, we must implement at minimum:
+//   - Destructor: to free the heap memory
+//   - Copy constructor: to perform a deep copy (avoid shallow copy danger)
+//   - Move constructor: to efficiently transfer ownership
+//
+// We delete the copy and move assignment operators to keep this example simple.
+// In modern C++, you'd use std::unique_ptr<Bio> instead of Bio* and get all
+// this behavior automatically — we'll cover that in the next Code Together.
 //
 // Like NameTag, this is a class because we enforce invariants:
 //   - id_ must be positive
@@ -29,19 +35,15 @@ public:
 
     FancyNameTag(int id, const std::string& company, const Bio& bio);
 
-	// Destructor: frees the heap-allocated Bio (REQUIRED by Rule of Five)
+	// Destructor: frees the heap-allocated Bio
 
     ~FancyNameTag();
 
-    // Copy constructor: performs a deep copy of the Bio (REQUIRED by Rule of Five)
+    // Copy constructor: performs a deep copy of the Bio
 
     FancyNameTag(const FancyNameTag& other);
 
-    // Copy assignment operator: deep copies the Bio from another FancyNameTag (REQUIRED by Rule of Five)
-
-    FancyNameTag& operator=(const FancyNameTag& other);
-
-    // Move constructor: transfers ownership of the Bio pointer (REQUIRED by Rule of Five)
+    // Move constructor: transfers ownership of the Bio pointer
     
     // The && means "rvalue reference." An rvalue is a temporary value with no
     // permanent address — something you can read from but not assign to.
@@ -61,10 +63,12 @@ public:
 
     FancyNameTag(FancyNameTag&& other) noexcept;
 
-    // Move assignment operator: transfers ownership of the Bio pointer (REQUIRED by Rule of Five)
-    // Also noexcept for the same reason — no allocation, nothing that can throw.
+    // Delete copy and move assignment operators — we're keeping this example simple.
+    // If you need to reassign a FancyNameTag, create a new one instead.
+    // (In real code, you'd use std::unique_ptr<Bio> which handles this automatically.)
 
-    FancyNameTag& operator=(FancyNameTag&& other) noexcept;
+    FancyNameTag& operator=(const FancyNameTag& other) = delete;
+    FancyNameTag& operator=(FancyNameTag&& other) = delete;
 
     // Prints all FancyNameTag data with a right-justified label and optional state on the right
     // Example: print("fOriginal", "unchanged") produces:

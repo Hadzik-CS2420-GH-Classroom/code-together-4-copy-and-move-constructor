@@ -99,23 +99,10 @@ FancyNameTag::FancyNameTag(const FancyNameTag& other)
                   << "\n";
 }
 
-// Copy assignment operator: replaces this object's data with a deep copy of other
-FancyNameTag& FancyNameTag::operator=(const FancyNameTag& other) {
-    std::cout << "Copy Assignment Operator\n";
-    // Self-assignment check: don't delete our own data if assigning to ourselves
-    if (this != &other) {
-        // Free the old Bio before replacing it
-        delete bio_;
-        // Copy the stack members
-        id_ = other.id_;
-        company_ = other.company_;
-        // Allocate new heap memory and copy the Bio data (deep copy)
-        // *other.bio_ dereferences the pointer to get the actual Bio object (see copy constructor)
-        bio_ = new Bio(*other.bio_);
-    }
-    // Return *this to support chaining (e.g. a = b = c)
-    return *this;
-}
+// Note: Copy and move assignment operators are deleted in the header.
+// This keeps the example focused on construction. In practice, you'd either:
+//   1. Implement them (full Rule of Five), or
+//   2. Use std::unique_ptr<Bio> which handles everything automatically
 
 // Move constructor: takes ownership of other's Bio pointer instead of copying
 // This is much faster than copying because no heap allocation is needed
@@ -136,25 +123,6 @@ FancyNameTag::FancyNameTag(FancyNameTag&& other) noexcept
               << ", took ownership of bio at HEAP " 
               << shortAddr(bio_) 
               << "\n";
-}
-
-// Move assignment operator: replaces this object's data by stealing from other
-// Also noexcept — same reason: no allocation, nothing that can throw.
-FancyNameTag& FancyNameTag::operator=(FancyNameTag&& other) noexcept {
-    std::cout << "Move Assignment Operator\n";
-    // Self-assignment check: don't delete our own data if moving to ourselves
-    if (this != &other) {
-        // Free the old Bio before replacing it
-        delete bio_;
-        // Take the stack members
-        id_ = other.id_;
-        // std::move transfers ownership of the string's internal buffer
-        company_ = std::move(other.company_);
-        // std::exchange swaps other.bio_ with nullptr and returns the old value
-        bio_ = std::exchange(other.bio_, nullptr);
-    }
-    // Return *this to support chaining
-    return *this;
 }
 
 // Prints all FancyNameTag data with a descriptive label and optional state hint
