@@ -55,22 +55,6 @@ We've deleted the copy and move assignment operators (`= delete`) to keep this e
 | Copy Independence | 2 |
 | Setter Validation | 4 |
 
-## Building and Running
-
-```bash
-# Configure
-cmake -B build -S .
-
-# Build
-cmake --build build
-
-# Run the demo
-./build/main
-
-# Run the tests
-./build/tests
-```
-
 ## Files to Modify
 
 - `src/FancyNameTag.cpp` - Implement the destructor, copy constructor, and move constructor
