@@ -65,4 +65,3 @@ We've deleted the copy and move assignment operators (`= delete`) to keep this e
 - `include/NameTag.h` - Class with stack-only members (default copy/move work fine)
 - `include/FancyNameTag.h` - Class declaration showing what you need to implement
 - `src/main.cpp` - Demo showing copy/move behavior
-- `tests/copy_move_test.cpp` - Tests that verify your implementations
