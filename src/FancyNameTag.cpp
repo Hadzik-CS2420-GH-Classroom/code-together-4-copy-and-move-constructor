@@ -10,8 +10,8 @@
 
 // Constructor: copies id and company by value, allocates a new Bio on the heap
 FancyNameTag::FancyNameTag(int id, const std::string& company, const Bio& bio)
-    : id_(id), 
-      company_(company), 
+    : id_(id),
+      company_(company),
       bio_(new Bio(bio)) {
 
     // Validate invariants: id must be positive
@@ -41,83 +41,114 @@ FancyNameTag::FancyNameTag(int id, const std::string& company, const Bio& bio)
     // We use it here only to show the stack address of this object so you can
     // see that copies and moves create different objects in memory.
 
-    std::cout << "Constructor (STACK " 
-              << shortAddr(this) 
-              << "): id=" 
-              << id_ 
-              << ", company=\"" 
-              << company_
-              << "\", bio={"; bio_->print(); std::cout 
-              << "} (HEAP " << shortAddr(bio_) 
-              << ")\n";
-}
-
-// Destructor: cleans up the heap-allocated Bio
-FancyNameTag::~FancyNameTag() {
-    std::cout << "Destructor (STACK " 
-              << shortAddr(this) 
-              << "): id=" 
-              << id_ 
-              << ", bio=";
-
-    // Check if bio_ is still valid (not moved)
-    if (bio_) {
-        // Print the Bio contents and address before deleting
-        std::cout << "{"; 
-        bio_->print(); 
-        std::cout << "} (HEAP " 
-                  << shortAddr(bio_) 
-                  << ")";
-    } else {
-        // This object was moved from, so bio_ is nullptr
-        std::cout << "(moved)";
-    }
-    std::cout << "\n";
-    // Free the heap memory (delete on nullptr is safe and does nothing)
-    delete bio_;
-}
-
-// Copy constructor: allocates NEW heap memory and copies the Bio data into it
-// This is a deep copy - the new object has its own independent Bio
-FancyNameTag::FancyNameTag(const FancyNameTag& other)
-    : id_(other.id_), 
-      company_(other.company_), 
-      // *other.bio_ dereferences the pointer: follows the address to get the
-      // actual Bio object on the heap. Without the *, we'd be passing a Bio*
-      // (an address) instead of a Bio (the object). Then new Bio(...) calls
-      // Bio's copy constructor with that object, allocating a new copy on the heap.
-      bio_(new Bio(*other.bio_)) {
-
-        // Log the copy, showing the two different heap addresses
-        std::cout << "Copy Constructor (STACK " 
-                  << shortAddr(this) 
-                  << "): id=" 
-                  << id_
-                  << ", copied bio from HEAP " 
-                  << shortAddr(other.bio_)
-                  << " to HEAP " << shortAddr(bio_) 
-                  << "\n";
-}
-
-// Move constructor: takes ownership of other's Bio pointer instead of copying
-// This is much faster than copying because no heap allocation is needed
-// noexcept: nothing here can throw (int copy, string move, pointer swap),
-// and std::vector requires noexcept to use move instead of copy during reallocation.
-FancyNameTag::FancyNameTag(FancyNameTag&& other) noexcept
-    : id_(other.id_),
-      // std::move transfers ownership of the string's internal buffer
-      company_(std::move(other.company_)),
-      // std::exchange swaps other.bio_ with nullptr and returns the old value
-      // After this, other.bio_ is nullptr (safe to destruct)
-      bio_(std::exchange(other.bio_, nullptr)) {
-    // Log the move, showing we took the same heap address (no new allocation)
-    std::cout << "Move Constructor (STACK "
+    std::cout << "Constructor (STACK "
               << shortAddr(this)
               << "): id="
               << id_
-              << ", took ownership of bio at HEAP "
-              << shortAddr(bio_)
-              << "\n";
+              << ", company=\""
+              << company_
+              << "\", bio={"; bio_->print(); std::cout
+              << "} (HEAP " << shortAddr(bio_)
+              << ")\n";
+}
+
+// ============================================================================
+// TODO 1: Destructor
+// ============================================================================
+// The destructor is called automatically when the object goes out of scope.
+// Since we allocated bio_ on the heap with 'new', we must free it with 'delete'.
+//
+// Steps:
+//   1. Print a message showing what's being destroyed (use the logging pattern below)
+//   2. Check if bio_ is not nullptr before printing its contents
+//   3. Delete bio_ (delete on nullptr is safe and does nothing)
+//
+// Logging pattern (copy this structure):
+//   std::cout << "Destructor (STACK " << shortAddr(this) << "): id=" << id_ << ", bio=";
+//   if (bio_) {
+//       std::cout << "{"; bio_->print(); std::cout << "} (HEAP " << shortAddr(bio_) << ")";
+//   } else {
+//       std::cout << "(moved)";
+//   }
+//   std::cout << "\n";
+// ============================================================================
+FancyNameTag::~FancyNameTag() {
+    // TODO: Implement the destructor
+    // 1. Print the destructor message (use the logging pattern above)
+    // 2. Delete bio_ to free the heap memory
+}
+
+// ============================================================================
+// TODO 2: Copy Constructor
+// ============================================================================
+// The copy constructor creates a NEW object as a copy of an existing one.
+// Since we own a raw pointer (bio_), we must perform a DEEP COPY:
+//   - Allocate NEW heap memory for our own Bio
+//   - Copy the data from other's Bio into our new Bio
+//
+// If we just copied the pointer (shallow copy), both objects would point to
+// the SAME heap memory. When one is destroyed, the other has a dangling pointer!
+// See images/shallow_copy_danger.png for why this is dangerous.
+// See images/fancy_copy_constructor.png for how deep copy works.
+//
+// Syntax reminder:
+//   - "other.bio_" is a pointer (Bio*)
+//   - "*other.bio_" dereferences it to get the actual Bio object
+//   - "new Bio(*other.bio_)" allocates a new Bio and copies the data into it
+//
+// Steps:
+//   1. Initialize id_ from other.id_ (int copy)
+//   2. Initialize company_ from other.company_ (string copy)
+//   3. Initialize bio_ with: new Bio(*other.bio_)  <-- DEEP COPY
+//   4. Print a message showing the copy (use the logging pattern below)
+//
+// Logging pattern (put this in the constructor body):
+//   std::cout << "Copy Constructor (STACK " << shortAddr(this) << "): id=" << id_
+//             << ", copied bio from HEAP " << shortAddr(other.bio_)
+//             << " to HEAP " << shortAddr(bio_) << "\n";
+// ============================================================================
+FancyNameTag::FancyNameTag(const FancyNameTag& other)
+    // TODO: Initialize id_ from other.id_
+    // TODO: Initialize company_ from other.company_
+    // TODO: Initialize bio_ with a deep copy: new Bio(*other.bio_)
+{
+    // TODO: Print the copy constructor message (use the logging pattern above)
+}
+
+// ============================================================================
+// TODO 3: Move Constructor
+// ============================================================================
+// The move constructor TRANSFERS ownership of resources from a temporary object.
+// Instead of allocating new memory and copying, we "steal" the other's pointer.
+// This is much faster because no heap allocation is needed!
+//
+// After the move, "other" is left in a "valid but unspecified" state.
+// We set other.bio_ to nullptr so its destructor won't delete our Bio.
+//
+// Key tools:
+//   - std::move(other.company_): transfers the string's internal buffer
+//   - std::exchange(other.bio_, nullptr): returns other.bio_ and sets it to nullptr
+//
+// The "noexcept" keyword is a promise that this function will never throw.
+// This is important because std::vector will REFUSE to use move unless it's noexcept.
+// (If a move threw mid-reallocation, the vector would be in an unrecoverable state.)
+//
+// Steps:
+//   1. Initialize id_ from other.id_ (int copy - primitives have nothing to "steal")
+//   2. Initialize company_ with: std::move(other.company_)  <-- transfers the string
+//   3. Initialize bio_ with: std::exchange(other.bio_, nullptr)  <-- steals the pointer
+//   4. Print a message showing the move (use the logging pattern below)
+//
+// Logging pattern (put this in the constructor body):
+//   std::cout << "Move Constructor (STACK " << shortAddr(this) << "): id=" << id_
+//             << ", took ownership of bio at HEAP " << shortAddr(bio_) << "\n";
+// ============================================================================
+FancyNameTag::FancyNameTag(FancyNameTag&& other) noexcept
+    // TODO: Initialize id_ from other.id_
+    // TODO: Initialize company_ with std::move(other.company_)
+    // TODO: Initialize bio_ with std::exchange(other.bio_, nullptr)
+{
+    // TODO: Print the move constructor message (use the logging pattern above)
 }
 
 // Note: Copy and move assignment operators are deleted in the header.
@@ -133,40 +164,40 @@ FancyNameTag::FancyNameTag(FancyNameTag&& other) noexcept
 // When you move: "this" is different BUT "bio_" is the SAME (pointer was transferred)
 void FancyNameTag::print(const std::string& label, const std::string& state) const {
     // Column 1: label right-justified to 18 characters (fits longest variable name)
-    
-    std::cout << std::right 
-              << std::setw(18) 
+
+    std::cout << std::right
+              << std::setw(18)
               << label
 
     // Column 2: stack address (always 5 hex chars from shortAddr)
-              
-              << "  STACK " 
+
+              << "  STACK "
               << shortAddr(this)
 
     // Column 3: id padded to 6 characters (fits "id=XX" with spacing)
-              
-              << "  id=" 
-              << std::left 
-              << std::setw(6) 
+
+              << "  id="
+              << std::left
+              << std::setw(6)
               << id_
 
     // Column 4: company padded to 30 characters
 
-              << "company=" 
-              << std::setw(30) 
+              << "company="
+              << std::setw(30)
               << ("\"" + company_ + "\"")
 
     // Column 5: bio contents and heap address
-    
+
               << "bio=";
-    
+
     // Check if bio_ is still valid (not moved)
-    
+
     if (bio_) {
         // Print the Bio contents and the heap address
-        std::cout << "{"; 
-        bio_->print(); 
-        std::cout << "} HEAP " 
+        std::cout << "{";
+        bio_->print();
+        std::cout << "} HEAP "
                   << shortAddr(bio_);
     } else {
         // This object was moved from, so bio_ is nullptr
@@ -174,8 +205,8 @@ void FancyNameTag::print(const std::string& label, const std::string& state) con
     }
     // Optional state hint on the right (e.g., "(unchanged)", "(modified)")
     if (!state.empty()) {
-        std::cout << "  (" 
-                  << state 
+        std::cout << "  ("
+                  << state
                   << ")";
     }
     std::cout << "\n";
