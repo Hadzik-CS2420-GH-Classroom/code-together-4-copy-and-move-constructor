@@ -1,0 +1,288 @@
+<h2>🔄 Copy and Move Constructors</h2>
+
+<p>In this activity, we build two classes — <strong>NameTag</strong> and <strong>FancyNameTag</strong> — to explore how C++ handles <strong>copying</strong> and <strong>moving</strong> objects. We will see why the compiler-generated defaults work for stack-only classes but break when a class owns heap memory.</p>
+
+<hr />
+
+<h3>🏷️ NameTag: Stack-Only Members</h3>
+
+<p><code>NameTag</code> has three private members — all stored on the stack:</p>
+
+<pre><code>class NameTag {
+private:
+    int id_;              // stack-allocated
+    std::string name_;    // stack-allocated
+    std::string company_; // stack-allocated
+};</code></pre>
+
+<p>Because every member is trivially copyable or movable, the compiler can generate correct copy and move operations automatically. <strong>We do not need to write any custom copy/move for this class.</strong></p>
+
+<hr />
+
+<h3>📋 Default Copy Constructor</h3>
+
+<p>A copy constructor creates a <strong>new object</strong> as an independent copy of an existing one.</p>
+
+<pre><code>NameTag original(1, "Waldo", "Weber State University");
+NameTag copied(original);  // copy constructor — creates a new NameTag</code></pre>
+
+<p><strong>What happens:</strong></p>
+<ul>
+    <li>A new <code>NameTag</code> is created at a different stack address</li>
+    <li>Each member is copied: <code>id_</code>, <code>name_</code>, <code>company_</code></li>
+    <li>The two objects are <strong>completely independent</strong> — modifying one does not affect the other</li>
+</ul>
+
+<p><strong>Proving independence:</strong></p>
+
+<pre><code>copied.setId(2);
+copied.setName("Scott");
+copied.setCompany("The School of Computing");
+// original is still: id=1, name="Waldo", company="Weber State University"</code></pre>
+
+<hr />
+
+<h3>🚚 Default Move Constructor</h3>
+
+<p>A move constructor <strong>transfers resources</strong> from a source object instead of copying them. This is useful when the source is temporary or no longer needed.</p>
+
+<pre><code>NameTag moved(std::move(original));  // move constructor — steals original's data</code></pre>
+
+<p><strong>What happens to each member type after a move:</strong></p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Member</th>
+            <th>Type</th>
+            <th>After Move</th>
+            <th>Why</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>id_</code></td>
+            <td><code>int</code></td>
+            <td>Still has its value</td>
+            <td>Primitives are just copied — nothing to "steal"</td>
+        </tr>
+        <tr>
+            <td><code>name_</code></td>
+            <td><code>std::string</code></td>
+            <td>Empty (<code>""</code>)</td>
+            <td>String's internal heap buffer is transferred</td>
+        </tr>
+        <tr>
+            <td><code>company_</code></td>
+            <td><code>std::string</code></td>
+            <td>Empty (<code>""</code>)</td>
+            <td>String's internal heap buffer is transferred</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>For <code>NameTag</code> (stack-only), the performance benefit is small. The real benefit of move shows up when a class owns heap memory — like <code>FancyNameTag</code>.</p>
+
+<hr />
+
+<h3>🎩 FancyNameTag: Heap-Owning Class</h3>
+
+<p><code>FancyNameTag</code> owns a raw pointer to a <code>Bio</code> on the heap:</p>
+
+<pre><code>class FancyNameTag {
+private:
+    int id_;              // stack-allocated
+    std::string company_; // stack-allocated
+    Bio* bio_;            // pointer to a Bio on the HEAP
+};</code></pre>
+
+<p>Because <code>FancyNameTag</code> owns heap memory through a raw pointer, the compiler's default copy and move operations are <strong>wrong</strong>. We must implement them ourselves.</p>
+
+<hr />
+
+<h3>⚠️ The Shallow Copy Problem</h3>
+
+<p>If we relied on the compiler's default copy, it would copy the <strong>pointer value</strong> (the address) — not the data it points to. Both objects would share the same <code>Bio</code> on the heap:</p>
+
+<pre><code>// What the DEFAULT copy would do (WRONG):
+FancyNameTag fCopied(fOriginal);
+// fOriginal.bio_ → 0xAAA11 (Bio on heap)
+// fCopied.bio_   → 0xAAA11 (SAME Bio!)  ← DANGER!</code></pre>
+
+<p><strong>Why this is catastrophic:</strong></p>
+<ol>
+    <li><code>fCopied</code> is destroyed first — its destructor calls <code>delete bio_</code>, freeing the Bio</li>
+    <li><code>fOriginal.bio_</code> now points to <strong>freed memory</strong> (dangling pointer)</li>
+    <li>When <code>fOriginal</code> is destroyed, it calls <code>delete bio_</code> again — <strong>double free</strong> (undefined behavior!)</li>
+</ol>
+
+<hr />
+
+<h3>✅ The Deep Copy Fix</h3>
+
+<p>A custom copy constructor allocates <strong>new</strong> heap memory and copies the data into it:</p>
+
+<pre><code>// Custom copy constructor (CORRECT):
+FancyNameTag::FancyNameTag(const FancyNameTag&amp; other)
+    : id_(other.id_),
+      company_(other.company_),
+      bio_(new Bio(*other.bio_)) {   // allocate NEW Bio, copy data into it
+}</code></pre>
+
+<p><strong>Now each object owns its own Bio:</strong></p>
+<pre><code>// fOriginal.bio_ → 0xAAA11 (its own Bio)
+// fCopied.bio_   → 0xBBB22 (its own Bio, DIFFERENT address)</code></pre>
+
+<p>Destructors can safely delete their own copy. No dangling pointers, no double free.</p>
+
+<hr />
+
+<h3>🚀 Move Constructor: Transfer Ownership</h3>
+
+<p>Instead of allocating new heap memory, the move constructor <strong>steals the pointer</strong>:</p>
+
+<pre><code>FancyNameTag::FancyNameTag(FancyNameTag&amp;&amp; other) noexcept
+    : id_(other.id_),
+      company_(std::move(other.company_)),
+      bio_(std::exchange(other.bio_, nullptr)) {  // steal pointer, set source to nullptr
+}</code></pre>
+
+<p><strong>Key details:</strong></p>
+<ul>
+    <li><code>&amp;&amp;</code> is an <strong>rvalue reference</strong> — it binds to temporaries or objects cast with <code>std::move()</code></li>
+    <li><code>std::exchange(other.bio_, nullptr)</code> returns the old pointer and sets the source to <code>nullptr</code></li>
+    <li>The source's destructor will see <code>nullptr</code> and safely do nothing</li>
+    <li><code>noexcept</code> is required — <code>std::vector</code> will refuse to use your move constructor without it</li>
+</ul>
+
+<p><strong>Copy vs. Move performance:</strong></p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Operation</th>
+            <th>Heap Allocations</th>
+            <th>Speed</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Copy Constructor</td>
+            <td>1 (<code>new Bio</code>)</td>
+            <td>Slower — allocates and copies</td>
+        </tr>
+        <tr>
+            <td>Move Constructor</td>
+            <td>0</td>
+            <td>Faster — just swaps a pointer</td>
+        </tr>
+    </tbody>
+</table>
+
+<hr />
+
+<h3>🚫 Why We Deleted Assignment Operators</h3>
+
+<p>In this activity, we focus on <strong>constructors only</strong>. The copy and move <em>assignment</em> operators are deleted:</p>
+
+<pre><code>FancyNameTag&amp; operator=(const FancyNameTag&amp; other) = delete;
+FancyNameTag&amp; operator=(FancyNameTag&amp;&amp; other) = delete;</code></pre>
+
+<p><strong>Why?</strong></p>
+<ul>
+    <li>Assignment is more complex — it must clean up old resources before copying/moving new ones</li>
+    <li>Keeping the example focused on constructors makes it easier to learn</li>
+    <li>In modern C++, you'd use <code>std::unique_ptr&lt;Bio&gt;</code> instead of <code>Bio*</code> — and get all this behavior automatically!</li>
+</ul>
+
+<p>We'll cover smart pointers in the next Code Together.</p>
+
+<hr />
+
+<h3>📏 What You Need to Implement</h3>
+
+<p>For <code>FancyNameTag</code>, you must implement these three special members:</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Member</th>
+            <th>Purpose</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Destructor</td>
+            <td>Free the heap-allocated Bio</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Copy Constructor</td>
+            <td>Deep copy the Bio into a new object</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Move Constructor</td>
+            <td>Steal the Bio pointer (no allocation)</td>
+        </tr>
+    </tbody>
+</table>
+
+<hr />
+
+<h3>📊 NameTag vs. FancyNameTag: When Do You Need Custom Copy/Move?</h3>
+
+<table>
+    <thead>
+        <tr>
+            <th></th>
+            <th>NameTag</th>
+            <th>FancyNameTag</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Members</td>
+            <td><code>int</code>, <code>std::string</code>, <code>std::string</code></td>
+            <td><code>int</code>, <code>std::string</code>, <code>Bio*</code></td>
+        </tr>
+        <tr>
+            <td>Owns heap memory?</td>
+            <td>No</td>
+            <td>Yes (raw pointer)</td>
+        </tr>
+        <tr>
+            <td>Default copy works?</td>
+            <td>Yes</td>
+            <td>No — shallow copy causes double free</td>
+        </tr>
+        <tr>
+            <td>Default move works?</td>
+            <td>Yes</td>
+            <td>No — source still has the pointer</td>
+        </tr>
+        <tr>
+            <td>Custom constructors needed?</td>
+            <td>No</td>
+            <td>Yes (destructor + copy + move)</td>
+        </tr>
+    </tbody>
+</table>
+
+<hr />
+
+<h3>🎯 Key Takeaways</h3>
+
+<ul>
+    <li><strong>Copy constructor</strong> creates a new object as a copy of an existing one</li>
+    <li><strong>Move constructor</strong> transfers ownership instead of duplicating — faster when heap resources are involved</li>
+    <li>The compiler's default copy/move works for <strong>stack-only classes</strong> (like <code>NameTag</code>)</li>
+    <li>Classes that own <strong>heap memory through raw pointers</strong> need custom constructors</li>
+    <li>A <strong>shallow copy</strong> of a pointer shares the same heap memory — leading to dangling pointers and double free</li>
+    <li>A <strong>deep copy</strong> allocates new heap memory and copies the data — each object is independent</li>
+    <li><code>std::exchange</code> is the clean way to steal a pointer and null out the source</li>
+    <li><code>noexcept</code> on moves is not optional — <code>std::vector</code> requires it</li>
+    <li>In modern C++, prefer <code>std::unique_ptr</code> over raw pointers — it handles all this automatically!</li>
+</ul>

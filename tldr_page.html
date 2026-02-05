@@ -1,0 +1,71 @@
+<h2>🧾 TL;DR: Stack vs Heap, Overloading Constructors, Struct vs Class, Copy &amp; Move (C++)</h2>
+
+<h3>📦 Stack vs Heap</h3>
+
+<p><strong>What it is:</strong> Two regions of memory where objects can live.</p>
+
+<p><strong>Think:</strong> Stack = automatic and fast. Heap = manual and flexible.</p>
+
+<p><strong>Why it matters:</strong> Stack objects are destroyed automatically when they go out of scope. Heap objects persist until you <code>delete</code> them — forget and you leak memory.</p>
+
+<pre><code>Bio bio{"Scott", "Professor", "CS", 2010};  // stack — destroyed automatically
+Bio* ptr = new Bio{"Scott", "Professor", "CS", 2010};  // heap — you must delete
+delete ptr;</code></pre>
+
+<h3>🔨 Overloading Constructors</h3>
+
+<p><strong>What it is:</strong> Define multiple constructors with different parameter lists so the compiler picks the right one based on the arguments.</p>
+
+<p><strong>Think:</strong> "Multiple ways to build the same type of object."</p>
+
+<p><strong>Why it matters:</strong> Lets callers create objects with varying levels of detail — sensible defaults fill in the rest.</p>
+
+<pre><code>Rectangle();                           // default: 1×1, black
+Rectangle(double side);                // square: side×side, black
+Rectangle(double w, double h);         // custom size, black
+Rectangle(double w, double h, Color c); // fully specified</code></pre>
+
+<h3>🧬 Struct vs Class</h3>
+
+<p><strong>What it is:</strong> Both group data and functions. The only C++ difference is default access — <code>struct</code> is public, <code>class</code> is private.</p>
+
+<p><strong>Think:</strong> Struct = open data holder. Class = protected with invariants.</p>
+
+<p><strong>Why it matters:</strong> Use a struct when any combination of values is valid. Use a class when you need to enforce rules (e.g., id must be positive).</p>
+
+<pre><code>struct Bio {                  // no rules to enforce — any values are fine
+    std::string name;
+    int year;
+};
+
+class NameTag {               // invariants: id &gt; 0, name not empty
+public:
+    NameTag(int id, const std::string&amp; name);
+private:
+    int id_;
+    std::string name_;
+};</code></pre>
+
+<h3>🔄 Copy and Move Constructors</h3>
+
+<p><strong>What it is:</strong> Copy duplicates an object. Move transfers ownership of its resources (faster, no allocation).</p>
+
+<p><strong>Think:</strong> Copy = photocopy. Move = hand it over.</p>
+
+<p><strong>Why it matters:</strong> The compiler's default copy/move works for stack-only classes. If your class owns heap memory (raw pointer), you must write custom versions or risk dangling pointers and double free.</p>
+
+<pre><code>NameTag copied(original);              // copy — both objects independent
+NameTag moved(std::move(original));    // move — original is emptied
+
+// Heap-owning class needs custom copy (deep copy):
+bio_ = new Bio(*other.bio_);           // allocate NEW heap memory
+
+// And custom move (steal pointer):
+bio_ = std::exchange(other.bio_, nullptr);  // take pointer, null the source</code></pre>
+
+<h3>✅ One-Sentence Summary</h3>
+
+<p><strong>Stack vs Heap:</strong> stack is automatic and scoped; heap is manual and persistent.<br />
+<strong>Overloading Constructors:</strong> multiple constructors let callers create objects different ways.<br />
+<strong>Struct vs Class:</strong> struct defaults public (data holders); class defaults private (enforced invariants).<br />
+<strong>Copy &amp; Move:</strong> copy duplicates; move transfers — own a raw pointer, write the Rule of Five.</p>
