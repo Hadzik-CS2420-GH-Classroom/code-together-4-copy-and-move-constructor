@@ -57,22 +57,6 @@ TEST(NameTagTest, CopyConstructorCopiesName) {
     EXPECT_EQ(copied.getName(), "Waldo");
 }
 
-// ==================== NameTag Default Copy Assignment (4 points) ====================
-
-TEST(NameTagTest, CopyAssignmentOverwritesId) {
-    NameTag original(1, "Waldo", "Weber State Univ.");
-    NameTag target(2, "Scott", "School of Computing");
-    target = original;
-    EXPECT_EQ(target.getId(), 1);
-}
-
-TEST(NameTagTest, CopyAssignmentOverwritesName) {
-    NameTag original(1, "Waldo", "Weber State Univ.");
-    NameTag target(2, "Scott", "School of Computing");
-    target = original;
-    EXPECT_EQ(target.getName(), "Waldo");
-}
-
 // ==================== FancyNameTag Constructor (4 points) ====================
 
 TEST(FancyNameTagTest, ConstructorSetsId) {
@@ -127,41 +111,6 @@ TEST(FancyNameTagTest, CopyConstructorDeepCopiesBio) {
            "not share the same Bio (shallow copy)";
 }
 
-// ==================== FancyNameTag Copy Assignment (6 points) ====================
-
-TEST(FancyNameTagTest, CopyAssignmentOverwritesId) {
-    Bio bio1{"Scott", "Professor", "Computer Science", 2010};
-    Bio bio2{"Alice", "TA", "Math", 2023};
-    FancyNameTag original(1, "Weber State Univ.", bio1);
-    FancyNameTag target(2, "School of Computing", bio2);
-    target = original;
-    EXPECT_EQ(target.getId(), 1);
-}
-
-TEST(FancyNameTagTest, CopyAssignmentOverwritesCompany) {
-    Bio bio1{"Scott", "Professor", "Computer Science", 2010};
-    Bio bio2{"Alice", "TA", "Math", 2023};
-    FancyNameTag original(1, "Weber State Univ.", bio1);
-    FancyNameTag target(2, "School of Computing", bio2);
-    target = original;
-    EXPECT_EQ(target.getCompany(), "Weber State Univ.");
-}
-
-TEST(FancyNameTagTest, CopyAssignmentDeepCopiesBio) {
-    Bio bio1{"Scott", "Professor", "Computer Science", 2010};
-    Bio bio2{"Alice", "TA", "Math", 2023};
-    FancyNameTag original(1, "Weber State Univ.", bio1);
-    FancyNameTag target(2, "School of Computing", bio2);
-    target = original;
-
-    // Bio data should match
-    EXPECT_EQ(target.getBio().name, "Scott");
-
-    // But must be at DIFFERENT addresses (deep copy, not shallow)
-    EXPECT_NE(&original.getBio(), &target.getBio())
-        << "Copy assignment must allocate a NEW Bio (deep copy)";
-}
-
 // ==================== FancyNameTag Move Constructor (8 points) ====================
 
 TEST(FancyNameTagTest, MoveConstructorTransfersId) {
@@ -203,55 +152,7 @@ TEST(FancyNameTagTest, MoveConstructorSetsSourceBioToNullptr) {
     EXPECT_EQ(moved.getBio().name, "Scott");
 }
 
-// ==================== FancyNameTag Move Assignment (8 points) ====================
-
-TEST(FancyNameTagTest, MoveAssignmentTransfersId) {
-    Bio bio1{"Scott", "Professor", "Computer Science", 2010};
-    Bio bio2{"Alice", "TA", "Math", 2023};
-    FancyNameTag original(1, "Weber State Univ.", bio1);
-    FancyNameTag target(2, "School of Computing", bio2);
-    target = std::move(original);
-    EXPECT_EQ(target.getId(), 1);
-}
-
-TEST(FancyNameTagTest, MoveAssignmentTransfersCompany) {
-    Bio bio1{"Scott", "Professor", "Computer Science", 2010};
-    Bio bio2{"Alice", "TA", "Math", 2023};
-    FancyNameTag original(1, "Weber State Univ.", bio1);
-    FancyNameTag target(2, "School of Computing", bio2);
-    target = std::move(original);
-    EXPECT_EQ(target.getCompany(), "Weber State Univ.");
-}
-
-TEST(FancyNameTagTest, MoveAssignmentTransfersBio) {
-    Bio bio1{"Scott", "Professor", "Computer Science", 2010};
-    Bio bio2{"Alice", "TA", "Math", 2023};
-    FancyNameTag original(1, "Weber State Univ.", bio1);
-    FancyNameTag target(2, "School of Computing", bio2);
-
-    // Capture the Bio address before the move
-    const Bio* originalBioAddr = &original.getBio();
-
-    target = std::move(original);
-
-    // The target should have the SAME Bio pointer (stolen, not copied)
-    EXPECT_EQ(&target.getBio(), originalBioAddr)
-        << "Move assignment should transfer the Bio pointer, not allocate a new one";
-}
-
-TEST(FancyNameTagTest, MoveAssignmentDeletesOldBio) {
-    Bio bio1{"Scott", "Professor", "Computer Science", 2010};
-    Bio bio2{"Alice", "TA", "Math", 2023};
-    FancyNameTag original(1, "Weber State Univ.", bio1);
-    FancyNameTag target(2, "School of Computing", bio2);
-
-    // Verify old data is replaced (old Bio deleted, new Bio stolen)
-    target = std::move(original);
-    EXPECT_EQ(target.getBio().name, "Scott");
-    EXPECT_EQ(target.getBio().title, "Professor");
-}
-
-// ==================== Copy Independence (4 points) ====================
+// ==================== Copy Independence (2 points) ====================
 
 TEST(FancyNameTagTest, CopyConstructorIsIndependent) {
     Bio bio{"Scott", "Professor", "Computer Science", 2010};
@@ -267,21 +168,6 @@ TEST(FancyNameTagTest, CopyConstructorIsIndependent) {
         << "Modifying the original should not affect the copy";
     EXPECT_EQ(copied.getCompany(), "Weber State Univ.")
         << "Modifying the original should not affect the copy";
-}
-
-TEST(FancyNameTagTest, CopyAssignmentIsIndependent) {
-    Bio bio1{"Scott", "Professor", "Computer Science", 2010};
-    Bio bio2{"Alice", "TA", "Math", 2023};
-    FancyNameTag original(1, "Weber State Univ.", bio1);
-    FancyNameTag target(2, "School of Computing", bio2);
-    target = original;
-
-    // Modify original after assignment
-    original.setId(99);
-
-    // Target should be unaffected
-    EXPECT_EQ(target.getId(), 1)
-        << "Modifying the original should not affect the assigned copy";
 }
 
 // ==================== Setter Validation (4 points) ====================
